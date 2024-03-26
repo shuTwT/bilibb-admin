@@ -111,7 +111,7 @@ const {
                 :icon="useRenderIcon(Menu)"
                 @click="handleDetail(row)"
               >
-                修改
+                详细
               </el-button>
             </template>
           </pure-table>

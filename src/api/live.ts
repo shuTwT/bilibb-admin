@@ -39,8 +39,11 @@ export const getDanmuList = (params?: object) => {
 };
 
 /** 房间弹幕列表 */
-export const getRoomDanmuList = (roomId: number | string, params?: object) => {
-  return http.request<DanmuResult>("get", "/api/v1/connect/list/" + roomId, {
+export const getRoomDanmuList = (
+  roomId: number | string | string[],
+  params?: object
+) => {
+  return http.request<DanmuResult>("get", "/api/v1/danmu/list/" + roomId, {
     params
   });
 };

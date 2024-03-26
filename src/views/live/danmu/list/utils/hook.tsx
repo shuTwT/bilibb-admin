@@ -1,4 +1,4 @@
-import { getRoomList } from "@/api/live";
+import { getRoomDanmuList } from "@/api/live";
 import type { PaginationProps } from "@pureadmin/table";
 import { onMounted, reactive, ref, toRaw } from "vue";
 import { useRouter, useRoute } from "vue-router";
@@ -11,8 +11,8 @@ export function useList() {
   const dataList = ref([]);
   const loading = ref(true);
   const form = reactive({
-    roomId: "",
-    title: ""
+    uname: "",
+    content: ""
   });
   const curRow = ref();
   const pagination = reactive<PaginationProps>({
@@ -23,24 +23,20 @@ export function useList() {
   });
   const columns: TableColumnList = [
     {
-      label: "房间号",
-      prop: "roomId"
+      label: "用户名",
+      prop: "User.uname"
     },
     {
-      label: "标题",
-      prop: "title"
+      label: "头像",
+      cellRenderer: scope => <el-image src={scope.row.User.fa} />
     },
     {
-      label: "标签",
-      prop: "tags"
+      label: "弹幕内容",
+      prop: "content"
     },
     {
-      label: "关键帧",
-      cellRenderer: scope => <el-image src={scope.row.keyframe} />
-    },
-    {
-      label: "封面",
-      cellRenderer: scope => <el-image src={scope.row.userCover} />
+      label: "时间",
+      prop: "date"
     },
     {
       label: "操作",
@@ -49,6 +45,7 @@ export function useList() {
       slot: "operation"
     }
   ];
+
   /** 高亮当前权限选中行 */
   function rowStyle({ row: { id } }) {
     return {
@@ -74,14 +71,17 @@ export function useList() {
   function handleSelectionChange(val) {
     console.log("handleSelectionChange", val);
   }
+
   async function onSearch() {
+    console.log(route.params.roomId);
     loading.value = true;
-    const { data } = await getRoomList(toRaw(form));
-    dataList.value = data;
+    const { data } = await getRoomDanmuList(route.params.roomId, toRaw(form));
+    dataList.value = data as any;
     setTimeout(() => {
       loading.value = false;
     }, 500);
   }
+
   const resetForm = formEl => {
     if (!formEl) return;
     formEl.resetFields();

@@ -1,14 +1,7 @@
 <script setup lang="ts">
-import { onMounted, ref, reactive } from "vue";
-import { getRoomList } from "@/api/live";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import {
-  delay,
-  subBefore,
-  deviceDetection,
-  useResizeObserver
-} from "@pureadmin/utils";
+import { deviceDetection } from "@pureadmin/utils";
 import Refresh from "@iconify-icons/ep/refresh";
 import Menu from "@iconify-icons/ep/menu";
 import { useList } from "./utils/hook";
@@ -38,18 +31,18 @@ const {
       :model="form"
       class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px] overflow-auto"
     >
-      <el-form-item label="房间号" prop="roomId">
+      <el-form-item label="用户名" prop="roomId">
         <el-input
-          v-model="form.roomId"
-          placeholder="请输入房间号"
+          v-model="form.uname"
+          placeholder="请输入用户名"
           clearable
           class="!w-[180px]"
         />
       </el-form-item>
-      <el-form-item label="标题" prop="title">
+      <el-form-item label="弹幕内容" prop="title">
         <el-input
-          v-model="form.title"
-          placeholder="请输入标题"
+          v-model="form.content"
+          placeholder="请输入弹幕内容"
           clearable
           class="!w-[180px]"
         />
@@ -93,7 +86,7 @@ const {
             :data="dataList"
             :columns="dynamicColumns"
             :pagination="pagination"
-            :paginationSmall="size === 'small' ? true : false"
+            :paginationSmall="size === 'small'"
             :header-cell-style="{
               background: 'var(--el-fill-color-light)',
               color: 'var(--el-text-color-primary)'
@@ -111,7 +104,7 @@ const {
                 :icon="useRenderIcon(Menu)"
                 @click="handleDetail(row)"
               >
-                修改
+                详细
               </el-button>
             </template>
           </pure-table>

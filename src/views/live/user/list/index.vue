@@ -10,7 +10,7 @@ import {
   useResizeObserver
 } from "@pureadmin/utils";
 import Refresh from "@iconify-icons/ep/refresh";
-import { useUser } from "./utils/hook";
+import { useUser } from "@/views/live/user/list/utils/hook";
 const {
   isShow,
   columns,

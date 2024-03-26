@@ -58,7 +58,7 @@ export function useRoom() {
 
   function handleDetail(row) {
     router.push({
-      path: "/danmu-list/" + row.roomId
+      path: "/live/danmu/list/" + row.roomId
     });
   }
 
@@ -88,7 +88,7 @@ export function useRoom() {
   };
 
   onMounted(async () => {
-    onSearch();
+    await onSearch();
   });
   return {
     isShow,

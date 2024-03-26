@@ -3,7 +3,7 @@ export default {
   redirect: "/live/connect",
   meta: {
     icon: "ri:list-check",
-    title: "menus.hsLive",
+    title: "直播管理",
     rank: 1
   },
   children: [
@@ -13,7 +13,7 @@ export default {
       component: () => import("@/views/live/connect/index.vue"),
       meta: {
         icon: "ri:bank-card-line",
-        title: "menus.hsLiveConnect",
+        title: "连接管理",
         showParent: true
       }
     },
@@ -23,7 +23,7 @@ export default {
       component: () => import("@/views/live/room/index.vue"),
       meta: {
         icon: "ri:bank-card-line",
-        title: "menus.hsLiveRoom",
+        title: "房间管理",
         showParent: true
       }
     },
@@ -33,7 +33,7 @@ export default {
       component: () => import("@/views/live/live/index.vue"),
       meta: {
         icon: "ri:bank-card-line",
-        title: "menus.hsLiveLive",
+        title: "直播管理",
         showParent: true
       }
     },
@@ -43,18 +43,29 @@ export default {
       component: () => import("@/views/live/options/index.vue"),
       meta: {
         icon: "ri:bank-card-line",
-        title: "menus.hsLiveOptions",
+        title: "直播设置",
         showParent: true
       }
     },
     {
       path: "/live/user",
       name: "LiveUser",
-      component: () => import("@/views/live/user/index.vue"),
+      component: () => import("@/views/live/user/list/index.vue"),
       meta: {
         icon: "ri:bank-card-line",
-        title: "menus.hsLiveUser",
+        title: "用户管理",
         showParent: true
+      }
+    },
+    {
+      path: "/live/user/:uid?/:roomId?",
+      name: "LiveUserDetail",
+      component: () => import("@/views/live/user/detail/index.vue"),
+      meta: {
+        icon: "ri:bank-card-line",
+        title: "用户详情",
+        showParent: true,
+        showLink: false
       }
     },
     {
@@ -63,8 +74,18 @@ export default {
       component: () => import("@/views/live/mine/index.vue"),
       meta: {
         icon: "ri:bank-card-line",
-        title: "menus.hsLiveMine",
+        title: "我的直播间",
         showParent: true
+      }
+    },
+    {
+      path: "/live/danmu/list/:roomId?",
+      name: "LiveDanmu",
+      component: () => import("@/views/live/danmu/list/index.vue"),
+      meta: {
+        icon: "ri:bank-card-line",
+        title: "弹幕列表",
+        showLink: false
       }
     }
   ]

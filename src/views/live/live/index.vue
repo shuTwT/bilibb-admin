@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { getLiveList } from "@/api/live";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import {
@@ -90,7 +88,7 @@ const {
             :data="dataList"
             :columns="dynamicColumns"
             :pagination="pagination"
-            :paginationSmall="size === 'small' ? true : false"
+            :paginationSmall="size === 'small'"
             :header-cell-style="{
               background: 'var(--el-fill-color-light)',
               color: 'var(--el-text-color-primary)'
