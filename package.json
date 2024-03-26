@@ -53,8 +53,10 @@
     "@pureadmin/utils": "^2.4.7",
     "@vueuse/core": "^10.9.0",
     "@vueuse/motion": "^2.1.0",
+    "@zxcvbn-ts/core": "^3.0.4",
     "animate.css": "^4.1.1",
     "axios": "^1.6.8",
+    "cropperjs": "^1.6.1",
     "dayjs": "^1.11.10",
     "echarts": "^5.5.0",
     "element-plus": "^2.6.2",
@@ -69,6 +71,7 @@
     "responsive-storage": "^2.2.0",
     "sortablejs": "^1.15.2",
     "vue": "^3.4.21",
+    "vue-json-pretty": "^2.4.0",
     "vue-router": "^4.3.0",
     "vue-tippy": "^6.4.1",
     "vue-types": "^5.1.1"
