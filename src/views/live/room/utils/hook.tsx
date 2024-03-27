@@ -63,20 +63,28 @@ export function useRoom() {
   }
 
   function handleSizeChange(val: number) {
+    onSearch();
     console.log(`${val} items per page`);
   }
 
   function handleCurrentChange(val: number) {
+    onSearch();
     console.log(`current page: ${val}`);
   }
 
   function handleSelectionChange(val) {
+    onSearch();
     console.log("handleSelectionChange", val);
   }
   async function onSearch() {
     loading.value = true;
-    const { data } = await getRoomList(toRaw(form));
+    const { data, count } = await getRoomList({
+      ...toRaw(form),
+      limit: pagination.pageSize,
+      page: pagination.currentPage
+    });
     dataList.value = data;
+    pagination.total = count;
     setTimeout(() => {
       loading.value = false;
     }, 500);

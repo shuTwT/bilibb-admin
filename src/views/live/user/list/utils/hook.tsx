@@ -69,9 +69,13 @@ export function useUser() {
   }
   async function onSearch() {
     loading.value = true;
-    const { data } = await getUserList(toRaw(form));
+    const { data, count } = await getUserList({
+      ...toRaw(form),
+      limit: pagination.pageSize,
+      page: pagination.currentPage
+    });
     dataList.value = data;
-    // pagination.total = data.total;
+    pagination.total = count;
     // pagination.pageSize = data.pageSize;
     // pagination.currentPage = data.currentPage;
     setTimeout(() => {
@@ -79,10 +83,12 @@ export function useUser() {
     }, 500);
   }
   function handleSizeChange(val: number) {
+    onSearch();
     console.log(`${val} items per page`);
   }
 
   function handleCurrentChange(val: number) {
+    onSearch();
     console.log(`current page: ${val}`);
   }
 

@@ -58,7 +58,7 @@ export default {
       }
     },
     {
-      path: "/live/user/:uid?/:roomId?",
+      path: "/live/user/:uid/:roomId?",
       name: "LiveUserDetail",
       component: () => import("@/views/live/user/detail/index.vue"),
       meta: {

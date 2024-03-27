@@ -104,3 +104,8 @@ const {
     </div>
   </div>
 </template>
+<style scoped lang="scss">
+.pure-table :deep(.el-image) {
+  max-width: 68px;
+}
+</style>

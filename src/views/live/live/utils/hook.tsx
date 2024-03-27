@@ -81,9 +81,13 @@ export function useLive() {
   }
   async function onSearch() {
     loading.value = true;
-    const { data } = await getLiveList(toRaw(form));
+    const { data, count } = await getLiveList({
+      ...toRaw(form),
+      limit: pagination.pageSize,
+      page: pagination.currentPage
+    });
     dataList.value = data;
-    // pagination.total = data.total;
+    pagination.total = count;
     // pagination.pageSize = data.pageSize;
     // pagination.currentPage = data.currentPage;
     setTimeout(() => {
@@ -91,14 +95,17 @@ export function useLive() {
     }, 500);
   }
   function handleSizeChange(val: number) {
+    onSearch();
     console.log(`${val} items per page`);
   }
 
   function handleCurrentChange(val: number) {
+    onSearch();
     console.log(`current page: ${val}`);
   }
 
   function handleSelectionChange(val) {
+    onSearch();
     console.log("handleSelectionChange", val);
   }
   const resetForm = formEl => {

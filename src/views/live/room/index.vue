@@ -130,4 +130,8 @@ const {
     margin-bottom: 12px;
   }
 }
+
+.pure-table :deep(.el-image) {
+  max-width: 200px;
+}
 </style>

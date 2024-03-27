@@ -5,7 +5,7 @@ useUserDetail();
 </script>
 
 <template>
-  <div class="layui-container">
+  <div class="layui-container" style="margin: 0 auto">
     <div class="layui-row layui-col-space10">
       <div class="layui-col">
         <div class="layui-row" style="display: flex; align-items: center">
@@ -136,3 +136,10 @@ useUserDetail();
     </div>
   </div>
 </template>
+
+<style>
+.layui-card-body.number {
+  font-size: 29px;
+  line-height: 60px;
+}
+</style>

@@ -50,33 +50,42 @@ export function useList() {
   function rowStyle({ row: { id } }) {
     return {
       cursor: "pointer",
-      background: id === curRow.value?.id ? "var(--el-fill-color-light)" : ""
+      background: id === curRow.value?.id ? "var(--el-fill-color-light)" : "",
+      height: "160px"
     };
   }
 
   function handleDetail(row) {
     router.push({
-      path: "/danmu-list/" + row.roomId
+      path: `/live/user/${row.uid}/${row.roomId}`
     });
   }
 
   function handleSizeChange(val: number) {
+    onSearch();
     console.log(`${val} items per page`);
   }
 
   function handleCurrentChange(val: number) {
+    onSearch();
     console.log(`current page: ${val}`);
   }
 
   function handleSelectionChange(val) {
+    onSearch();
     console.log("handleSelectionChange", val);
   }
 
   async function onSearch() {
     console.log(route.params.roomId);
     loading.value = true;
-    const { data } = await getRoomDanmuList(route.params.roomId, toRaw(form));
+    const { data, count } = await getRoomDanmuList(route.params.roomId, {
+      ...toRaw(form),
+      limit: pagination.pageSize,
+      page: pagination.currentPage
+    });
     dataList.value = data as any;
+    pagination.total = count;
     setTimeout(() => {
       loading.value = false;
     }, 500);
