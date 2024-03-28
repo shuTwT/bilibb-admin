@@ -1,139 +1,129 @@
 <script setup lang="ts">
 import { useUserDetail } from "./utils/hook";
 
-useUserDetail();
+const { loading, userInfo } = useUserDetail();
 </script>
 
 <template>
-  <div class="layui-container" style="margin: 0 auto">
-    <div class="layui-row layui-col-space10">
-      <div class="layui-col">
-        <div class="layui-row" style="display: flex; align-items: center">
-          <div class="layui-col avatar">
-            <img
-              style="width: 100px; height: 100px; object-fit: cover"
-              src="https://i2.hdslb.com/bfs/face/f48ca43199f93b07f0548b80eaad51d8b0a92049.jpg"
-              alt="avatar"
-            />
-          </div>
-        </div>
-        <div class="layui-row">
-          <div class="layui-col layui-col-xs4">
-            <h2>南方今天摸鱼了吗</h2>
-          </div>
-          <div class="layui-col layui-col-xs4">
-            <h3>uid:8368505</h3>
-          </div>
-          <div class="layui-col layui-col-xs4">
-            <span>性别:暂无</span>
-          </div>
-        </div>
+  <div style="max-width: 900px; margin: 0 auto">
+    <template v-if="!loading">
+      <el-row>
+        <el-col :span="24">
+          <el-image
+            style="width: 100px; height: 100px; object-fit: cover"
+            :src="userInfo.fa"
+            alt="avatar"
+          />
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="6">{{ userInfo.uname }}</el-col>
+        <el-col :span="6">uid:{{ userInfo.uid }}</el-col>
+        <el-col :span="6">性别:{{ userInfo.gender ?? "暂无" }}</el-col>
+      </el-row>
 
-        <div class="layui-row">
-          <div class="layui-col layui-col-xs3">
-            <div class="layui-card">
-              <div class="layui-card-header">进房量</div>
-              <div class="layui-card-body number">1</div>
-            </div>
-          </div>
-          <div class="layui-col layui-col-xs3">
-            <div class="layui-card">
-              <div class="layui-card-header">弹幕数量</div>
-              <div class="layui-card-body number">2</div>
-            </div>
-          </div>
-          <div class="layui-col layui-col-xs3">
-            <div class="layui-card">
-              <div class="layui-card-header">点赞次数</div>
-              <div class="layui-card-body number">0</div>
-            </div>
-          </div>
-          <div class="layui-col layui-col-xs3">
-            <div class="layui-card">
-              <div class="layui-card-header">送礼次数</div>
-              <div class="layui-card-body number">0</div>
-            </div>
-          </div>
-        </div>
-        <div class="layui-row">
-          <div class="layui-col layui-col-xs3">
-            <div class="layui-card">
-              <div class="layui-card-header">第一次进房</div>
-              <div class="layui-card-body">2024-03-15 03:35:48</div>
-            </div>
-          </div>
-          <div class="layui-col layui-col-xs3">
-            <div class="layui-card">
-              <div class="layui-card-header">第一次发弹幕</div>
-              <div class="layui-card-body">2024-03-15 03:37:10</div>
-            </div>
-          </div>
-          <div class="layui-col layui-col-xs3">
-            <div class="layui-card">
-              <div class="layui-card-header">上舰次数</div>
-              <div class="layui-card-body number">0</div>
-            </div>
-          </div>
-          <div class="layui-col layui-col-xs3">
-            <div class="layui-card">
-              <div class="layui-card-header">礼物价值(银瓜子)</div>
-              <div class="layui-card-body number">0.00</div>
-            </div>
-          </div>
-        </div>
-        <div class="layui-row">
-          <div class="layui-col layui-col-xs3">
-            <div class="layui-card">
-              <div class="layui-card-header">最后一次进房</div>
-              <div class="layui-card-body">2024-03-15 03:35:48</div>
-            </div>
-          </div>
-          <div class="layui-col layui-col-xs3">
-            <div class="layui-card">
-              <div class="layui-card-header">最后一次发弹幕</div>
-              <div class="layui-card-body">2024-03-15 03:40:50</div>
-            </div>
-          </div>
-          <div class="layui-col layui-col-xs3">
-            <div class="layui-card">
-              <div class="layui-card-header">第一次上舰</div>
-              <div class="layui-card-body">暂无</div>
-            </div>
-          </div>
-          <div class="layui-col layui-col-xs3">
-            <div class="layui-card">
-              <div class="layui-card-header">第一次送礼</div>
-              <div class="layui-card-body">暂无</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="layui-row layui-col-space10">
-      <div class="layui-col-xs12">
-        <button class="layui-btn">更新数据</button>
-      </div>
-    </div>
-    <div class="layui-row layui-col-space10">
-      <div class="layui-col-xs12">
-        <div class="layui-card layui-col-md6 layui-col-space10">
-          <div class="layui-card-header">speak</div>
-          <div class="layui-card-body">
-            <table
-              id="speak-table"
-              class="layui-table"
-              lay-filter="speak-table"
-            />
-          </div>
-        </div>
-        <div class="layui-card layui-col-md6 layui-col-space10">
-          <div class="layui-card-header">日志</div>
-          <div class="layui-card-body">
-            <table id="log-table" class="layui-table" lay-filter="log-table" />
-          </div>
-        </div>
-      </div>
-    </div>
+      <el-row>
+        <el-col :xs="12" :sm="6">
+          <el-card>
+            <template #header> 进房量 </template>
+            {{ userInfo.UserEntry[0].num }}
+          </el-card>
+        </el-col>
+        <el-col :xs="12" :sm="6">
+          <el-card>
+            <template #header> 弹幕数量 </template>
+            {{ userInfo.UserDanmu[0].num }}
+          </el-card>
+        </el-col>
+        <el-col :xs="12" :sm="6">
+          <el-card>
+            <template #header> 点赞次数 </template>
+            0
+          </el-card>
+        </el-col>
+        <el-col :xs="12" :sm="6">
+          <el-card>
+            <template #header> 送礼次数 </template>
+            0
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :xs="12" :sm="6">
+          <el-card>
+            <template #header> 第一次进房 </template>
+            2024-03-15 03:35:48
+          </el-card>
+        </el-col>
+        <el-col :xs="12" :sm="6">
+          <el-card>
+            <template #header> 第一次发弹幕 </template>
+            {{ userInfo.UserDanmu[0].first }}
+          </el-card>
+        </el-col>
+        <el-col :xs="12" :sm="6">
+          <el-card>
+            <template #header> 上舰次数 </template>
+            0
+          </el-card>
+        </el-col>
+        <el-col :xs="12" :sm="6">
+          <el-card>
+            <template #header> 礼物价值(银瓜子) </template>
+            0.00
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :xs="12" :sm="6">
+          <el-card>
+            <template #header> 最后一次进房 </template>
+            2024-03-15 03:35:48
+          </el-card>
+        </el-col>
+        <el-col :xs="12" :sm="6">
+          <el-card>
+            <template #header> 最后一次发弹幕 </template>
+            {{ userInfo.UserDanmu[0].first }}
+          </el-card>
+        </el-col>
+        <el-col :xs="12" :sm="6">
+          <el-card>
+            <template #header> 第一次上舰 </template>
+            暂无
+          </el-card>
+        </el-col>
+        <el-col :xs="12" :sm="6">
+          <el-card>
+            <template #header> 第一次送礼</template>
+            暂无
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
+          <el-button type="success">更新数据</el-button>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :md="12">
+          <el-card>
+            <template #header> 弹幕 </template>
+            <template #default>
+              <pure-table />
+            </template>
+          </el-card>
+        </el-col>
+        <el-col :md="12">
+          <el-card>
+            <template #header> 日志 </template>
+            <template #default>
+              <pure-table />
+            </template>
+          </el-card>
+        </el-col>
+      </el-row>
+    </template>
   </div>
 </template>
 
