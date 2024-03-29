@@ -5,5 +5,12 @@ defineOptions({
 </script>
 
 <template>
-  <div>test</div>
+  <iframe class="frame-iframe" src="/api/swager/index.html" />
 </template>
+<style lang="scss" scoped>
+.frame-iframe {
+  width: 100%;
+  height: 100%;
+  margin: 0 !important;
+}
+</style>
