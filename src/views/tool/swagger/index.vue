@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-  <iframe class="frame-iframe" src="/api/swager/index.html" />
+  <iframe class="frame-iframe" src="/api/swagger/index.html" />
 </template>
 <style lang="scss" scoped>
 .frame-iframe {

@@ -65,9 +65,9 @@ export const getDeptList = (params?: object) => {
 };
 
 /** 获取系统监控-在线用户列表 */
-export const getOnlineLogsList = (data?: object) => {
-  return http.request<ResultTable>("post", "/api/monitor/online-logs", {
-    data
+export const getOnlineLogsList = (params?: object) => {
+  return http.request<ResultTable>("get", "/api/monitor/online-logs", {
+    params
   });
 };
 
