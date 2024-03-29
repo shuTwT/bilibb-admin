@@ -4,7 +4,7 @@ export default {
   meta: {
     icon: "ri:list-check",
     title: "直播管理",
-    rank: 1
+    rank: 2
   },
   children: [
     {

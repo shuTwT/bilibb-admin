@@ -12,6 +12,16 @@ export default [
     }
   },
   {
+    path: "/large-screen",
+    name: "LiveLargeScreen",
+    component: () => import("@/views/live/largeScreen/index.vue"),
+    meta: {
+      icon: "ri:list-check",
+      title: "大屏",
+      rank: 1
+    }
+  },
+  {
     path: "/redirect",
     component: Layout,
     meta: {
