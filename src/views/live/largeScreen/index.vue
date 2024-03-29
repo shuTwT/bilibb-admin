@@ -20,6 +20,45 @@ const isComp4Loaded = ref(false);
 const isComp5Loaded = ref(false);
 const isComp6Loaded = ref(false);
 
+const fetchController = new AbortController();
+
+function onTick() {
+  return new Promise((resolve, reject) => {
+    fetch("/api/v1/large-screen/data", {
+      signal: fetchController.signal
+    })
+      .then(res => res.json())
+      .then(res => {
+        resolve(res);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+}
+
+function longPolling() {
+  function poll() {
+    onTick()
+      .then((res: any) => {
+        if (res.code == 200) {
+          poll();
+        } else if (res.code == 204) {
+          poll();
+        }
+      })
+      .catch(error => {
+        if (error.name === "AbortError") {
+          console.log("长轮询被取消:", error.message);
+        } else {
+          console.error("长轮询错误:", error);
+        }
+        setTimeout(poll, 5000);
+      });
+  }
+  poll();
+}
+
 onBeforeMount(() => {
   if (!isDark.value) {
     toggleDark();
