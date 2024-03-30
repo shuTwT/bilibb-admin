@@ -59,6 +59,8 @@ function longPolling() {
   poll();
 }
 
+longPolling();
+
 onBeforeMount(() => {
   if (!isDark.value) {
     toggleDark();
@@ -87,6 +89,7 @@ onBeforeUnmount(() => {
   if (isDark.value) {
     toggleDark();
   }
+  fetchController.abort();
 });
 </script>
 

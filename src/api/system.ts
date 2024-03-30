@@ -71,6 +71,10 @@ export const getOnlineLogsList = (params?: object) => {
   });
 };
 
+export const offlineUser = (id: string, data?: object) => {
+  return http.request<Result>("delete", "/api/monitor/offline/" + id, { data });
+};
+
 /** 获取系统监控-登录日志列表 */
 export const getLoginLogsList = (data?: object) => {
   return http.request<ResultTable>("post", "/api/monitor/login-logs", { data });
