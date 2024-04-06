@@ -1,7 +1,8 @@
 import { http } from "@/utils/http";
 
 type Result = {
-  success: boolean;
+  code?: number;
+  success?: boolean;
   data?: any;
 };
 
@@ -91,4 +92,8 @@ export const getUsersLogs = (params?: object) => {
 
 export const getUserLogs = (userId: string | number, params?: object) => {
   return http.request<Result>("get", "/api/v1/user/logs/" + userId, { params });
+};
+
+export const refreshLargeScreenData = (params?: object) => {
+  return http.request<Result>("get", "/api/v1/large-screen/data", { params });
 };

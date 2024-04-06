@@ -6,10 +6,15 @@ import {
   BorderBox1,
   BorderBox8,
   Decoration5,
-  Loading
+  Loading,
+  ScrollRankingBoard,
+  ActiveRingChart,
+  Charts
 } from "@kjgl77/datav-vue3";
 import { useDark } from "@pureadmin/utils";
 import { ref, onBeforeMount, onBeforeUnmount, onMounted } from "vue";
+import { refreshLargeScreenData } from "@/api/live";
+import { reactive } from "vue";
 
 const { isDark, toggleDark } = useDark();
 const dropdownList1 = ref([]);
@@ -19,47 +24,113 @@ const isComp3Loaded = ref(false);
 const isComp4Loaded = ref(false);
 const isComp5Loaded = ref(false);
 const isComp6Loaded = ref(false);
-
-const fetchController = new AbortController();
-
-function onTick() {
-  return new Promise((resolve, reject) => {
-    fetch("/api/v1/large-screen/data", {
-      signal: fetchController.signal
-    })
-      .then(res => res.json())
-      .then(res => {
-        resolve(res);
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
-}
-
-function longPolling() {
-  function poll() {
-    onTick()
-      .then((res: any) => {
-        if (res.code == 200) {
-          poll();
-        } else if (res.code == 204) {
-          poll();
-        }
-      })
-      .catch(error => {
-        if (error.name === "AbortError") {
-          console.log("长轮询被取消:", error.message);
-        } else {
-          console.error("长轮询错误:", error);
-        }
-        setTimeout(poll, 5000);
-      });
+const rankingBoardConfig = reactive({
+  data: [
+    {
+      name: "周口",
+      value: 55
+    },
+    {
+      name: "南阳",
+      value: 120
+    },
+    {
+      name: "西峡",
+      value: 78
+    },
+    {
+      name: "驻马店",
+      value: 66
+    },
+    {
+      name: "新乡",
+      value: 80
+    },
+    {
+      name: "信阳",
+      value: 45
+    },
+    {
+      name: "漯河",
+      value: 29
+    }
+  ],
+  unit: "万元"
+});
+const ActiveRingChartConfig = reactive({
+  lineWidth: 48,
+  radius: "60%",
+  activeRadius: "65%",
+  digitalFlopStyle: {
+    fill: "pink"
+  },
+  data: [
+    {
+      name: "男",
+      value: 98
+    },
+    {
+      name: "女",
+      value: 150
+    },
+    {
+      name: "未知",
+      value: 62
+    }
+  ]
+});
+const largeScreenData = reactive({
+  Room: {
+    id: 1,
+    roomId: "",
+    roomOwnerUid: "",
+    description: "",
+    parentAreaName: "",
+    title: "",
+    userCover: "",
+    keyframe: "",
+    tags: "",
+    areaName: ""
+  },
+  todayData: {
+    comment: "今日数据",
+    newEntryNum: 228,
+    entryNum: 2000,
+    spekNum: 2000,
+    entryNumfor7day: {
+      entryNum: [0, 0, 0, 0, 0, 0, 0],
+      newEntryNum: [0, 0, 0, 0, 0, 0, 0]
+    },
+    speakNumfor7day: {
+      speakNum: [0, 0, 0, 0, 0, 0, 0],
+      speakPeopleNum: [0, 0, 0, 0, 0, 0, 0]
+    }
   }
-  poll();
-}
+});
+const chart1Option = reactive({});
+const chart2Option = reactive({});
+const chart3Option = reactive({});
+let pollTimer = null;
 
-longPolling();
+const onTick = () => {
+  pollTimer = setTimeout(() => {
+    polling();
+  }, 10000);
+};
+
+const polling = () => {
+  refreshLargeScreenData()
+    .then(res => {
+      largeScreenData.Room = res.data.Room;
+      largeScreenData.todayData = res.data.todayData;
+      onTick();
+    })
+    .catch(err => {
+      console.error(err);
+    })
+    .finally(() => {});
+};
+polling();
 
 onBeforeMount(() => {
   if (!isDark.value) {
@@ -89,7 +160,7 @@ onBeforeUnmount(() => {
   if (isDark.value) {
     toggleDark();
   }
-  fetchController.abort();
+  clearTimeout(pollTimer);
 });
 </script>
 
@@ -105,7 +176,7 @@ onBeforeUnmount(() => {
       <div class="title-left">
         <img class="anchor-avatar" src="/img/avatar.webp" alt="" />
         <div class="anchor-name">xxx</div>
-        <div class="live-room-title">零基础学编程</div>
+        <div class="live-room-title">{{ largeScreenData.Room.title }}</div>
         <div class="live-state">直播结束</div>
       </div>
       <div class="title-right">
@@ -220,12 +291,12 @@ onBeforeUnmount(() => {
             <div class="card-header__left">用户画像</div>
             <div class="card-header__right">
               <el-dropdown trigger="click">
-                <span>按累计观看人数统计 ▼</span>
+                <span>人群分布 ▼</span>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item>action 1</el-dropdown-item>
-                    <el-dropdown-item divided>action 2</el-dropdown-item>
-                    <el-dropdown-item divided>action 3</el-dropdown-item>
+                    <el-dropdown-item>人群分布</el-dropdown-item>
+                    <el-dropdown-item divided>年龄分布</el-dropdown-item>
+                    <el-dropdown-item divided>地域分布</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
@@ -238,7 +309,10 @@ onBeforeUnmount(() => {
               </loading>
             </template>
             <template v-else>
-              <div />
+              <active-ring-chart
+                :config="ActiveRingChartConfig"
+                style="width: 100%; height: 100%"
+              />
             </template>
           </div>
         </border-box-8>
@@ -269,7 +343,26 @@ onBeforeUnmount(() => {
               </loading>
             </template>
             <template v-else>
-              <div />
+              <div class="flex w-full" style="margin: 0 5px">
+                <div class="mini-card mini-card-1" color-white>
+                  <div class="mini-card-content">
+                    <div class="title">在线人数</div>
+                    <div class="num" />
+                  </div>
+                </div>
+                <div class="mini-card mini-card-2" color-white>
+                  <div class="mini-card-content">
+                    <div class="title">进房人数</div>
+                    <div class="num" />
+                  </div>
+                </div>
+                <div class="mini-card mini-card-3" color-white>
+                  <div class="mini-card-content">
+                    <div class="title">离开人数</div>
+                    <div class="num" />
+                  </div>
+                </div>
+              </div>
             </template>
           </div>
         </border-box-8>
@@ -310,15 +403,15 @@ onBeforeUnmount(() => {
       <div class="dap-card">
         <border-box-8>
           <div class="card-header">
-            <div class="card-header__left">渠道分析</div>
+            <div class="card-header__left">观众弹幕排行</div>
             <div class="card-header__right">
               <el-dropdown trigger="click">
-                <span>按累计观看人数统计 ▼</span>
+                <span>全部统计 ▼</span>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item>action 1</el-dropdown-item>
-                    <el-dropdown-item divided>action 2</el-dropdown-item>
-                    <el-dropdown-item divided>action 3</el-dropdown-item>
+                    <el-dropdown-item>七日统计</el-dropdown-item>
+                    <el-dropdown-item divided>当月统计</el-dropdown-item>
+                    <el-dropdown-item divided>全部统计</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
@@ -330,7 +423,12 @@ onBeforeUnmount(() => {
                 <div color-white>Loading...</div>
               </loading>
             </template>
-            <template v-else />
+            <template v-else>
+              <scroll-ranking-board
+                :config="rankingBoardConfig"
+                style=" width: 100%;height: 100%"
+              />
+            </template>
           </div>
         </border-box-8>
       </div>
@@ -373,10 +471,12 @@ onBeforeUnmount(() => {
   .card-body {
     display: flex;
     flex: 1;
+    padding: 10px;
   }
 }
 
-.component1 {
+.component1,
+.component4 {
   position: absolute;
   top: 70px;
   left: 18px;
@@ -647,7 +747,7 @@ onBeforeUnmount(() => {
   display: flex;
 }
 
-.border-box-content {
+:deep(.border-box-content) {
   display: flex;
   flex-direction: column;
 }
