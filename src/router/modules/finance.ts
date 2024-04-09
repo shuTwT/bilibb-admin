@@ -4,7 +4,7 @@ export default {
   meta: {
     icon: "ri:list-check",
     title: "财务管理",
-    rank: 3
+    rank: 4
   },
   children: [
     {
