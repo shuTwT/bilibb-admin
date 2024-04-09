@@ -1,4 +1,35 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const option = {
+  xAxis: {
+    type: "category",
+    date: [
+      "0:00",
+      "2:00",
+      "4:00",
+      "6:00",
+      "8:00",
+      "10:00",
+      "12:00",
+      "14:00",
+      "16:00",
+      "18:00",
+      "20:00",
+      "22:00",
+      "24:00"
+    ]
+  },
+  yAxis: {
+    type: "value"
+  },
+  series: [
+    {
+      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      type: "line",
+      smooth: false
+    }
+  ]
+};
+</script>
 
 <template>
   <div class="report-wrap">
@@ -125,7 +156,7 @@
                   >
                     <div
                       class="tooltip-date"
-                      style=" font-weight: bold;color: #61666d"
+                      style="font-weight: bold; color: #61666d"
                     >
                       6:00-7:00
                     </div>

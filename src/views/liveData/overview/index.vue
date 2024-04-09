@@ -1,4 +1,67 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const dataMax = [
+  {
+    name: "收益",
+    max: 100
+  },
+  {
+    name: "弹幕数量",
+    max: 100
+  },
+  {
+    name: "开播时长",
+    max: 100
+  },
+  {
+    name: "用户平均观看时长",
+    max: 100
+  },
+  {
+    name: "新增粉丝",
+    max: 100
+  },
+  {
+    name: "累计观看",
+    max: 100
+  }
+];
+const option = {
+  radar: {
+    indicator: dataMax,
+    series: [
+      {
+        type: "radar",
+        data: [
+          {
+            name: "你的直播",
+            value: [80, 90, 80, 82, 90, 0],
+            itemStyle: {
+              normal: {
+                color: "rgb(251, 114, 153)",
+                lineStyle: {
+                  color: "rgb(251, 114, 153)"
+                }
+              }
+            }
+          },
+          {
+            name: "同水平主播",
+            value: [0, 0, 0, 0, 0, 0],
+            itemStyle: {
+              normal: {
+                color: "rgb(35, 173, 229)",
+                lineStyle: {
+                  color: "rgb(35, 173, 229)"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+};
+</script>
 
 <template>
   <div class="report-wrap">
