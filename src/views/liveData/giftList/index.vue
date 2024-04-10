@@ -62,7 +62,7 @@ const form = reactive({
           <div
             role="progress"
             class="progress-tv w-100 h-100 p-absolute p-zero"
-            style=" display: none;background-color: rgb(255 255 255)"
+            style="display: none; background-color: rgb(255 255 255)"
           >
             <div class="progress-img bg-no-repeat bg-center p-center" />
           </div>

@@ -426,7 +426,7 @@ onBeforeUnmount(() => {
             <template v-else>
               <scroll-ranking-board
                 :config="rankingBoardConfig"
-                style=" width: 100%;height: 100%"
+                style="width: 100%; height: 100%"
               />
             </template>
           </div>
