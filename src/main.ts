@@ -3,6 +3,7 @@ import router from "./router";
 import { setupStore } from "@/store";
 import { getPlatformConfig } from "./config";
 import { MotionPlugin } from "@vueuse/motion";
+import { emitter } from "@/utils/mitt";
 // import { useEcharts } from "@/plugins/echarts";
 import { createApp, type Directive } from "vue";
 import { useElementPlus } from "@/plugins/elementPlus";
@@ -49,6 +50,24 @@ import "tippy.js/dist/tippy.css";
 import "tippy.js/themes/light.css";
 import VueTippy from "vue-tippy";
 app.use(VueTippy);
+
+// 连接SSE流
+const source = new EventSource("/api/notice/msg");
+source.onopen = () => console.log("Connection opened");
+source.onerror = console.error;
+source.onmessage = ({ data }) => {
+  try {
+    const parsedData = JSON.parse(data);
+    if (parsedData.code == 200) {
+      emitter.emit("noticeEventSource", parsedData);
+    } else {
+      source.close();
+    }
+  } catch (error) {
+    console.error(error);
+    source.close();
+  }
+};
 
 getPlatformConfig(app).then(async config => {
   setupStore(app);
