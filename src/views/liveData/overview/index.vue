@@ -79,46 +79,7 @@ const option = {
           <div class="right" />
         </div>
         <div class="live-performance">
-          <div
-            class="radar-chart radar-chart-wrap"
-            data-v-515806d8=""
-            _echarts_instance_="ec_1712648352453"
-            style="
-              position: relative;
-              user-select: none;
-              -webkit-tap-highlight-color: transparent;
-            "
-          >
-            <div
-              style="
-                position: relative;
-                width: 325px;
-                height: 300px;
-                padding: 0;
-                margin: 0;
-                border-width: 0;
-              "
-            >
-              <canvas
-                data-zr-dom-id="zr_0"
-                width="487"
-                height="450"
-                style="
-                  position: absolute;
-                  top: 0;
-                  left: 0;
-                  width: 325px;
-                  height: 300px;
-                  padding: 0;
-                  margin: 0;
-                  user-select: none;
-                  border-width: 0;
-                  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
-                "
-              />
-            </div>
-            <div />
-          </div>
+          <dv-charts class="radar-chart radar-chart-wrap" />
           <div class="right">
             <div class="legend">
               <div class="legend-item">

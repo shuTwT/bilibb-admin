@@ -23,6 +23,8 @@ import "element-plus/dist/index.css";
 import "./assets/iconfont/iconfont.js";
 import "./assets/iconfont/iconfont.css";
 
+import DataVVue3 from "@kjgl77/datav-vue3";
+
 const app = createApp(App);
 
 // 自定义指令
@@ -74,7 +76,7 @@ getPlatformConfig(app).then(async config => {
   app.use(router);
   await router.isReady();
   injectResponsiveStorage(app, config);
-  app.use(MotionPlugin).use(useElementPlus).use(Table);
+  app.use(MotionPlugin).use(useElementPlus).use(DataVVue3).use(Table);
   // .use(PureDescriptions)
   // .use(useEcharts);
   app.mount("#app");

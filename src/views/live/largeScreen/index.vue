@@ -2,19 +2,14 @@
 //@ts-ignore
 import bili_favicon from "@/assets/bili-favicon.png";
 import autoFit from "autofit.js";
-import {
-  BorderBox1,
-  BorderBox8,
-  Decoration5,
-  Loading,
-  ScrollRankingBoard,
-  ActiveRingChart,
-  Charts
-} from "@kjgl77/datav-vue3";
 import { useDark } from "@pureadmin/utils";
 import { ref, onBeforeMount, onBeforeUnmount, onMounted } from "vue";
 import { refreshLargeScreenData } from "@/api/live";
 import { reactive } from "vue";
+
+defineOptions({
+  name: "LargeScreen"
+});
 
 const { isDark, toggleDark } = useDark();
 const dropdownList1 = ref([]);
@@ -185,7 +180,7 @@ onBeforeUnmount(() => {
     </div>
     <div class="component1">
       <div class="dap-card">
-        <border-box-8>
+        <dv-border-box8>
           <div class="card-header">
             <div class="card-header__left">互动趋势</div>
             <div class="card-header__right">
@@ -203,9 +198,9 @@ onBeforeUnmount(() => {
           </div>
           <div class="card-body">
             <template v-if="!isComp1Loaded">
-              <loading>
+              <dv-loading>
                 <div color-white>Loading...</div>
-              </loading>
+              </dv-loading>
             </template>
             <template v-else>
               <div class="flex w-full" style="margin: 0 5px">
@@ -230,16 +225,16 @@ onBeforeUnmount(() => {
               </div>
             </template>
           </div>
-        </border-box-8>
+        </dv-border-box8>
       </div>
     </div>
     <div class="component2">
       <div class="card-body">
-        <border-box-1 ref="borderRef">
+        <dv-border-box1 ref="borderRef">
           <template v-if="!isComp2Loaded">
-            <loading>
+            <dv-loading>
               <div color-white>Loading...</div>
-            </loading>
+            </dv-loading>
           </template>
           <template v-else>
             <div class="number-panel-area">
@@ -281,12 +276,12 @@ onBeforeUnmount(() => {
               </div>
             </div>
           </template>
-        </border-box-1>
+        </dv-border-box1>
       </div>
     </div>
     <div class="component3">
       <div class="dap-card">
-        <border-box-8>
+        <dv-border-box8>
           <div class="card-header">
             <div class="card-header__left">用户画像</div>
             <div class="card-header__right">
@@ -304,23 +299,23 @@ onBeforeUnmount(() => {
           </div>
           <div class="card-body">
             <template v-if="!isComp3Loaded">
-              <loading>
+              <dv-loading>
                 <div color-white>Loading...</div>
-              </loading>
+              </dv-loading>
             </template>
             <template v-else>
-              <active-ring-chart
+              <dv-active-ring-chart
                 :config="ActiveRingChartConfig"
                 style="width: 100%; height: 100%"
               />
             </template>
           </div>
-        </border-box-8>
+        </dv-border-box8>
       </div>
     </div>
     <div class="component4">
       <div class="dap-card">
-        <border-box-8>
+        <dv-border-box8>
           <div class="card-header">
             <div class="card-header__left">流量趋势</div>
             <div class="card-header__right">
@@ -338,9 +333,9 @@ onBeforeUnmount(() => {
           </div>
           <div class="card-body">
             <template v-if="!isComp4Loaded">
-              <loading>
+              <dv-loading>
                 <div color-white>Loading...</div>
-              </loading>
+              </dv-loading>
             </template>
             <template v-else>
               <div class="flex w-full" style="margin: 0 5px">
@@ -365,12 +360,12 @@ onBeforeUnmount(() => {
               </div>
             </template>
           </div>
-        </border-box-8>
+        </dv-border-box8>
       </div>
     </div>
     <div class="component5">
       <div class="dap-card">
-        <border-box-8>
+        <dv-border-box8>
           <div class="card-header">
             <div class="card-header__left">来源趋势</div>
             <div class="card-header__right">
@@ -388,20 +383,20 @@ onBeforeUnmount(() => {
           </div>
           <div class="card-body">
             <template v-if="!isComp5Loaded">
-              <loading>
+              <dv-loading>
                 <div color-white>Loading...</div>
-              </loading>
+              </dv-loading>
             </template>
             <template v-else>
               <div />
             </template>
           </div>
-        </border-box-8>
+        </dv-border-box8>
       </div>
     </div>
     <div class="component6">
       <div class="dap-card">
-        <border-box-8>
+        <dv-border-box8>
           <div class="card-header">
             <div class="card-header__left">观众弹幕排行</div>
             <div class="card-header__right">
@@ -419,22 +414,22 @@ onBeforeUnmount(() => {
           </div>
           <div class="card-body">
             <template v-if="!isComp6Loaded">
-              <loading>
+              <dv-loading>
                 <div color-white>Loading...</div>
-              </loading>
+              </dv-loading>
             </template>
             <template v-else>
-              <scroll-ranking-board
+              <dv-scroll-ranking-board
                 :config="rankingBoardConfig"
                 style="width: 100%; height: 100%"
               />
             </template>
           </div>
-        </border-box-8>
+        </dv-border-box8>
       </div>
     </div>
     <div class="decoration-bottom">
-      <decoration5 :dur="2" style="width: 960px; height: 40px" />
+      <dv-decoration5 :dur="2" style="width: 960px; height: 40px" />
     </div>
   </div>
 </template>

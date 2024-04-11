@@ -115,6 +115,45 @@ declare module "vue" {
     ElWatermark: (typeof import("element-plus"))["ElWatermark"];
     ElTour: (typeof import("element-plus"))["ElTour"];
     ElTourStep: (typeof import("element-plus"))["ElTourStep"];
+    DvButton: (typeof import("@kjgl77/datav-vue3"))["Button"];
+    DvConicalColumnChart: (typeof import("@kjgl77/datav-vue3"))["ConicalColumnChart"];
+    DvercentPond: (typeof import("@kjgl77/datav-vue3"))["PercentPond"];
+    DvWaterLevelPond: (typeof import("@kjgl77/datav-vue3"))["WaterLevelPond"];
+    DvLoading: (typeof import("@kjgl77/datav-vue3"))["Loading"];
+    DvFlylineChartEnhanced: (typeof import("@kjgl77/datav-vue3"))["FlylineChartEnhanced"];
+    DvFlylineChart: (typeof import("@kjgl77/datav-vue3"))["FlylineChart"];
+    DvScrollRankingBoard: (typeof import("@kjgl77/datav-vue3"))["ScrollRankingBoard"];
+    DvScrollBoard: (typeof import("@kjgl77/datav-vue3"))["ScrollBoard"];
+    DvCharts: (typeof import("@kjgl77/datav-vue3"))["Charts"];
+    DvCapsuleChart: (typeof import("@kjgl77/datav-vue3"))["CapsuleChart"];
+    DvActiveRingChart: (typeof import("@kjgl77/datav-vue3"))["ActiveRingChart"];
+    DvDigitalFlop: (typeof import("@kjgl77/datav-vue3"))["DigitalFlop"];
+    DvFullScreenContainer: (typeof import("@kjgl77/datav-vue3"))["FullScreenContainer"];
+    DvDecoration1: (typeof import("@kjgl77/datav-vue3"))["Decoration1"];
+    DvDecoration2: (typeof import("@kjgl77/datav-vue3"))["Decoration2"];
+    DvDecoration3: (typeof import("@kjgl77/datav-vue3"))["Decoration3"];
+    DvDecoration4: (typeof import("@kjgl77/datav-vue3"))["Decoration4"];
+    DvDecoration5: (typeof import("@kjgl77/datav-vue3"))["Decoration5"];
+    DvDecoration6: (typeof import("@kjgl77/datav-vue3"))["Decoration6"];
+    DvDecoration7: (typeof import("@kjgl77/datav-vue3"))["Decoration7"];
+    DvDecoration8: (typeof import("@kjgl77/datav-vue3"))["Decoration8"];
+    DvDecoration9: (typeof import("@kjgl77/datav-vue3"))["Decoration9"];
+    DvDecoration1: (typeof import("@kjgl77/datav-vue3"))["Decoration10"];
+    DvDecoration11: (typeof import("@kjgl77/datav-vue3"))["Decoration11"];
+    DvDecoration12: (typeof import("@kjgl77/datav-vue3"))["Decoration12"];
+    DvBorderBox1: (typeof import("@kjgl77/datav-vue3"))["BorderBox1"];
+    DvBorderBox2: (typeof import("@kjgl77/datav-vue3"))["BorderBox2"];
+    DvBorderBox3: (typeof import("@kjgl77/datav-vue3"))["BorderBox3"];
+    DvBorderBox4: (typeof import("@kjgl77/datav-vue3"))["BorderBox4"];
+    DvBorderBox5: (typeof import("@kjgl77/datav-vue3"))["BorderBox5"];
+    DvBorderBox6: (typeof import("@kjgl77/datav-vue3"))["BorderBox6"];
+    DvBorderBox7: (typeof import("@kjgl77/datav-vue3"))["BorderBox7"];
+    DvBorderBox8: (typeof import("@kjgl77/datav-vue3"))["BorderBox8"];
+    DvBorderBox9: (typeof import("@kjgl77/datav-vue3"))["BorderBox9"];
+    DvBorderBox10: (typeof import("@kjgl77/datav-vue3"))["BorderBox10"];
+    DvBorderBox11: (typeof import("@kjgl77/datav-vue3"))["BorderBox11"];
+    DvBorderBox12: (typeof import("@kjgl77/datav-vue3"))["BorderBox12"];
+    DvBorderBox13: (typeof import("@kjgl77/datav-vue3"))["BorderBox13"];
   }
 
   interface ComponentCustomProperties {
