@@ -1,4 +1,23 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from "vue";
+
+type DataType = "income" | "watchTime" | "barrage";
+
+const loading = ref(true);
+const dataType = ref<DataType>("income");
+
+const changeDataType = (type: DataType) => {
+  loading.value = true;
+  dataType.value = type;
+  setTimeout(() => {
+    loading.value = false;
+  }, 500);
+};
+
+setTimeout(() => {
+  loading.value = false;
+}, 500);
+</script>
 
 <template>
   <div class="report-wrap">
@@ -10,13 +29,25 @@
       <div class="fans-rank-content">
         <header class="rank-header">
           <div class="rank-tabs">
-            <div class="rank-tab current">
+            <div
+              class="rank-tab"
+              :class="{ current: dataType == 'income' }"
+              @click="changeDataType('income')"
+            >
               <div class="tab-content">电池贡献</div>
             </div>
-            <div class="rank-tab">
+            <div
+              class="rank-tab"
+              :class="{ current: dataType == 'watchTime' }"
+              @click="changeDataType('watchTime')"
+            >
               <div class="tab-content">观看时长</div>
             </div>
-            <div class="rank-tab">
+            <div
+              class="rank-tab"
+              :class="{ current: dataType == 'barrage' }"
+              @click="changeDataType('barrage')"
+            >
               <div class="tab-content">弹幕数量</div>
             </div>
           </div>
@@ -53,7 +84,10 @@
             </div>
           </div>
         </header>
-        <div>
+        <div v-if="loading" data-v-05727fa6="" class="link-progress-tv">
+          <div class="text" />
+        </div>
+        <div v-else>
           <div class="no-data" />
           <div class="no-data-msg" />
         </div>
@@ -88,8 +122,18 @@
   padding: 0 32px;
 
   .rank-tabs {
-    display: flexbox;
     display: flex;
+
+    .rank-tab {
+      margin-right: 40px;
+      font-size: 16px;
+      color: #61666d;
+      cursor: pointer;
+    }
+
+    .rank-tab.current {
+      color: #00aeec;
+    }
   }
 
   .select-bar {
@@ -113,6 +157,27 @@
     .tip {
       margin-left: 20px;
     }
+  }
+}
+
+.link-progress-tv {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  background-image: url("//s1.hdslb.com/bfs/static/blive/blfe-link-center/static/img/pic.loading-tv.e11a9bf.gif");
+  background-repeat: no-repeat;
+  background-position: center center;
+
+  .text {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    margin-top: 50px;
+    font-size: 13px;
+    text-align: center;
   }
 }
 
@@ -160,5 +225,10 @@
       color: #00aeec;
     }
   }
+}
+
+.report-wrap:has(.link-progress-tv) {
+  position: relative;
+  height: 100%;
 }
 </style>

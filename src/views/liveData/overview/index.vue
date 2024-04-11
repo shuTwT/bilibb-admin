@@ -1,5 +1,26 @@
 <script setup lang="ts">
-const dataMax = [
+import { computed } from "vue";
+import { reactive, ref } from "vue";
+
+type DataType =
+  | "income"
+  | "broadcast"
+  | "fans"
+  | "watchedCount"
+  | "barrage"
+  | "watchTime";
+const dataTypeNames = {
+  income: "收益",
+  broadcast: "直播时长",
+  fans: "新增粉丝",
+  watchedCount: "累计观看",
+  barrage: "弹幕数",
+  watchTime: "累计有效观看时长"
+};
+const dataType = ref<DataType>("income");
+const dataTypeName = computed(() => dataTypeNames[dataType.value]);
+
+const indicator = [
   {
     name: "收益",
     max: 100
@@ -25,41 +46,41 @@ const dataMax = [
     max: 100
   }
 ];
-const option = {
+const option = reactive({
   radar: {
-    indicator: dataMax,
-    series: [
-      {
-        type: "radar",
-        data: [
-          {
-            name: "你的直播",
-            value: [80, 90, 80, 82, 90, 0],
-            itemStyle: {
-              normal: {
-                color: "rgb(251, 114, 153)",
-                lineStyle: {
-                  color: "rgb(251, 114, 153)"
-                }
-              }
-            }
-          },
-          {
-            name: "同水平主播",
-            value: [0, 0, 0, 0, 0, 0],
-            itemStyle: {
-              normal: {
-                color: "rgb(35, 173, 229)",
-                lineStyle: {
-                  color: "rgb(35, 173, 229)"
-                }
-              }
-            }
-          }
-        ]
-      }
-    ]
-  }
+    indicator: indicator,
+    polygon: true
+  },
+  series: [
+    {
+      type: "radar",
+      name: "你的直播",
+      radarStyle: {
+        stroke: "rgba(251, 114, 153,0.8)",
+        fill: "rgba(251, 114, 153,0.8)"
+      },
+      label: {
+        show: false
+      },
+      data: [0, 0, 0, 0, 0, 0]
+    },
+    {
+      type: "radar",
+      name: "同水平主播",
+      radarStyle: {
+        stroke: "rgba(35, 173, 229,0.8)",
+        fill: "rgba(35, 173, 229,0.8)"
+      },
+      label: {
+        show: false
+      },
+      data: [0, 0, 0, 0, 0, 0]
+    }
+  ]
+});
+
+const changeType = (type: DataType) => {
+  dataType.value = type;
 };
 </script>
 
@@ -79,7 +100,7 @@ const option = {
           <div class="right" />
         </div>
         <div class="live-performance">
-          <dv-charts class="radar-chart radar-chart-wrap" />
+          <dv-charts class="radar-chart radar-chart-wrap" :option="option" />
           <div class="right">
             <div class="legend">
               <div class="legend-item">
@@ -125,44 +146,77 @@ const option = {
           <div class="report-wrap">
             <div class="core-data-wrap">
               <div class="data-card-wrap">
-                <div class="data-card active">
+                <div
+                  class="data-card"
+                  :class="{ active: dataType == 'income' }"
+                  @click="changeType('income')"
+                >
                   <div class="name">收益</div>
                   <div class="value">
                     <span class="num">0</span><span class="unit">元</span>
                   </div>
                 </div>
-                <div class="data-card">
+                <div
+                  class="data-card"
+                  :class="{ active: dataType == 'broadcast' }"
+                  @click="changeType('broadcast')"
+                >
                   <div class="name">直播时长</div>
                   <div class="value">
                     <span class="num">0</span><span class="unit" />
                   </div>
                 </div>
-                <div class="data-card">
+                <div
+                  class="data-card"
+                  :class="{ active: dataType == 'fans' }"
+                  @click="changeType('fans')"
+                >
                   <div class="name">新增粉丝</div>
                   <div class="value">
                     <span class="num">0</span><span class="unit">人</span>
                   </div>
                 </div>
-                <div class="data-card">
+                <div
+                  class="data-card"
+                  :class="{ active: dataType == 'watchedCount' }"
+                  @click="changeType('watchedCount')"
+                >
                   <div class="name">累计观看</div>
                   <div class="value">
                     <span class="num">0</span><span class="unit" />
                   </div>
                 </div>
-                <div class="data-card">
+                <div
+                  class="data-card"
+                  :class="{ active: dataType == 'barrage' }"
+                  @click="changeType('barrage')"
+                >
                   <div class="name">弹幕数</div>
                   <div class="value">
                     <span class="num">0</span><span class="unit" />
                   </div>
                 </div>
-                <div class="data-card">
+                <div
+                  class="data-card"
+                  :class="{ active: dataType == 'watchTime' }"
+                  @click="changeType('watchTime')"
+                >
                   <div class="name">累计有效观看时长</div>
                   <div class="value">
                     <span class="num">0</span><span class="unit" />
                   </div>
                 </div>
               </div>
-              <!---->
+              <div v-if="dataType != 'income'" class="data-chart-wrap">
+                <div class="header">
+                  <div class="title">近七日{{ dataTypeName }}</div>
+                  <i class="icon-font icon-question" data-popover-uid="14" />
+                </div>
+                <div
+                  class="live-data-line-chart"
+                  _echarts_instance_="ec_1712826465958"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -290,7 +344,6 @@ const option = {
 }
 
 .data-card-wrap {
-  display: flexbox;
   display: flex;
   margin-top: 24px;
 
@@ -344,6 +397,24 @@ const option = {
   .data-card:hover:not(.active) {
     background-color: rgb(35 173 229 / 10%);
   }
+}
+
+.data-chart-wrap .header {
+  display: flex;
+  align-items: center;
+  padding: 24px 0;
+  -ms-flex-align: center;
+
+  .title {
+    margin-right: 4px;
+    font-size: 14px;
+    color: #61666d;
+  }
+}
+
+.live-data-line-chart {
+  width: 100%;
+  height: 300px;
 }
 
 .core-data .extra-wrap {

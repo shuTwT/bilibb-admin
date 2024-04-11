@@ -1,33 +1,393 @@
 <script setup lang="ts">
-const option = {
-  xAxis: {
-    type: "category",
-    date: [
-      "0:00",
-      "2:00",
-      "4:00",
-      "6:00",
-      "8:00",
-      "10:00",
-      "12:00",
-      "14:00",
-      "16:00",
-      "18:00",
-      "20:00",
-      "22:00",
-      "24:00"
+import { ref, reactive } from "vue";
+import { useECharts } from "@pureadmin/utils";
+import { computed } from "vue";
+const fansTypeFilter = reactive({
+  watch_num: false,
+  big_r_num: false,
+  live_fans: false,
+  anchor_guard_num: true,
+  pay_user: false
+});
+const chartRef = ref();
+const fakeData = [
+  {
+    left: "0:00",
+    right: "1:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "1:00",
+    right: "2:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "2:00",
+    right: "3:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "3:00",
+    right: "4:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "4:00",
+    right: "5:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "5:00",
+    right: "6:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "6:00",
+    right: "7:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "7:00",
+    right: "8:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "8:00",
+    right: "9:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "9:00",
+    right: "10:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "10:00",
+    right: "11:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "11:00",
+    right: "12:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "12:00",
+    right: "13:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "13:00",
+    right: "14:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "14:00",
+    right: "15:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "15:00",
+    right: "16:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "16:00",
+    right: "17:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "17:00",
+    right: "18:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "18:00",
+    right: "19:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "19:00",
+    right: "20:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "20:00",
+    right: "21:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "21:00",
+    right: "22:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "22:00",
+    right: "23:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  },
+  {
+    left: "23:00",
+    right: "24:00",
+    watch_num: 0,
+    big_r_num: 0,
+    live_fans: 0,
+    anchor_guard_num: 0,
+    pay_user: 0
+  }
+];
+const watchNum = computed(() => fakeData.map(item => item.watch_num));
+const bigRNum = computed(() => fakeData.map(item => item.big_r_num));
+const liveFans = computed(() => fakeData.map(item => item.live_fans));
+const anchorGuardNum = computed(() =>
+  fakeData.map(item => item.anchor_guard_num)
+);
+const payUser = computed(() => fakeData.map(item => item.pay_user));
+const { setOptions } = useECharts(chartRef);
+function renderEcharts(
+  watchNumYData: number[],
+  bigRNumYData: number[],
+  liveFansYData: number[],
+  anchorGuardNumYData: number[],
+  payUserYData: number[]
+) {
+  setOptions({
+    legend: {
+      show: false,
+      selected: {
+        watchNum: fansTypeFilter.watch_num,
+        bigRNum: fansTypeFilter.big_r_num,
+        liveFans: fansTypeFilter.live_fans,
+        anchorGuardNum: fansTypeFilter.anchor_guard_num,
+        payUser: fansTypeFilter.pay_user
+      }
+    },
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "line"
+      }
+    },
+    xAxis: {
+      type: "category",
+      data: [
+        "0:00",
+        "1:00",
+        "2:00",
+        "3:00",
+        "4:00",
+        "5:00",
+        "6:00",
+        "7:00",
+        "8:00",
+        "9:00",
+        "10:00",
+        "11:00",
+        "12:00",
+        "13:00",
+        "14:00",
+        "15:00",
+        "16:00",
+        "17:00",
+        "18:00",
+        "19:00",
+        "20:00",
+        "21:00",
+        "22:00",
+        "23:00",
+        "24:00"
+      ]
+    },
+    yAxis: {
+      type: "value"
+    },
+    series: [
+      {
+        name: "watchNum",
+        data: watchNumYData,
+        type: "line",
+        smooth: false,
+        lineStyle: {
+          color: "rgb(172, 109, 255)",
+          width: 4
+        },
+        itemStyle: {
+          borderWidth: 3,
+          borderColor: "rgb(172, 109, 255)",
+          color: "rgb(172, 109, 255)"
+        }
+      },
+      {
+        name: "bigRNum",
+        data: bigRNumYData,
+        type: "line",
+        smooth: false,
+        lineStyle: {
+          color: "rgb(255, 127, 36)",
+          width: 4
+        },
+        itemStyle: {
+          borderWidth: 3,
+          borderColor: "rgb(255, 127, 36)",
+          color: "rgb(255, 127, 36)"
+        }
+      },
+      {
+        name: "liveFans",
+        data: liveFansYData,
+        type: "line",
+        smooth: false,
+        lineStyle: {
+          color: "#00aeec",
+          width: 4
+        },
+        itemStyle: {
+          borderWidth: 3,
+          borderColor: "#00aeec",
+          color: "#00aeec"
+        }
+      },
+      {
+        name: "anchorGuardNum",
+        data: anchorGuardNumYData,
+        type: "line",
+        smooth: false,
+        lineStyle: {
+          color: "rgb(42, 200, 100)",
+          width: 4
+        },
+        itemStyle: {
+          borderWidth: 3,
+          borderColor: "rgb(42, 200, 100)",
+          color: "rgb(42, 200, 100)"
+        }
+      },
+      {
+        name: "payUser",
+        data: payUserYData,
+        type: "line",
+        smooth: false,
+        lineStyle: {
+          color: "rgb(255, 102, 153)",
+          width: 4
+        },
+        itemStyle: {
+          borderWidth: 3,
+          borderColor: "rgb(255, 102, 153)",
+          color: "rgb(255, 102, 153)"
+        }
+      }
     ]
-  },
-  yAxis: {
-    type: "value"
-  },
-  series: [
-    {
-      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      type: "line",
-      smooth: false
-    }
-  ]
+  });
+}
+renderEcharts(
+  watchNum.value,
+  bigRNum.value,
+  liveFans.value,
+  anchorGuardNum.value,
+  payUser.value
+);
+const onClickFansType = (type: string) => {
+  fansTypeFilter[type] = !fansTypeFilter[type];
+  renderEcharts(
+    watchNum.value,
+    bigRNum.value,
+    liveFans.value,
+    anchorGuardNum.value,
+    payUser.value
+  );
 };
 </script>
 
@@ -35,8 +395,7 @@ const option = {
   <div class="report-wrap">
     <div class="fans-analysis">
       <div role="heading" class="page-title">
-        <span class="v-middle">粉丝分析</span
-        ><!----><!----><!---->
+        <span class="v-middle">粉丝分析</span>
       </div>
       <div class="fans-analysis-content">
         <header class="fans-header">
@@ -62,19 +421,39 @@ const option = {
         </header>
         <div class="fans-analysis-wrap">
           <div class="tab-wrapper">
-            <div class="tab active">
+            <div
+              class="tab"
+              :class="{ active: fansTypeFilter.live_fans }"
+              @click="onClickFansType('live_fans')"
+            >
               <div class="label">关注粉丝</div>
             </div>
-            <div class="tab">
+            <div
+              class="tab"
+              :class="{ active: fansTypeFilter.pay_user }"
+              @click="onClickFansType('pay_user')"
+            >
               <div class="label">付费粉丝</div>
             </div>
-            <div class="tab">
+            <div
+              class="tab"
+              :class="{ active: fansTypeFilter.big_r_num }"
+              @click="onClickFansType('big_r_num')"
+            >
               <div class="label">大R粉丝</div>
             </div>
-            <div class="tab">
+            <div
+              class="tab"
+              :class="{ active: fansTypeFilter.anchor_guard_num }"
+              @click="onClickFansType('anchor_guard_num')"
+            >
               <div class="label">大航海粉丝</div>
             </div>
-            <div class="tab">
+            <div
+              class="tab"
+              :class="{ active: fansTypeFilter.watch_num }"
+              @click="onClickFansType('watch_num')"
+            >
               <div class="label">看过直播的用户</div>
             </div>
           </div>
@@ -83,105 +462,28 @@ const option = {
               <div class="title">用户活跃时间</div>
               <div class="subtitle">更新于2024-04-08</div>
             </div>
-            <div
-              class="live-data-line-chart"
-              tooltip-label="关注粉丝"
-              _echarts_instance_="ec_1712648352454"
-              style="
-                position: relative;
-                user-select: none;
-                -webkit-tap-highlight-color: transparent;
-              "
-            >
-              <div
-                style="
-                  position: relative;
-                  width: 873px;
-                  height: 300px;
-                  padding: 0;
-                  margin: 0;
-                  cursor: default;
-                  border-width: 0;
-                "
-              >
-                <canvas
-                  data-zr-dom-id="zr_0"
-                  width="1309"
-                  height="450"
-                  style="
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 873px;
-                    height: 300px;
-                    padding: 0;
-                    margin: 0;
-                    user-select: none;
-                    border-width: 0;
-                    -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
-                  "
-                />
-              </div>
-              <div
-                style="
-                  position: absolute;
-                  display: none;
-                  border-style: solid;
-                  white-space: nowrap;
-                  z-index: 9999999;
-                  transition:
-                    left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s,
-                    top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s;
-                  background-color: rgb(255, 255, 255);
-                  border-width: 0px;
-                  border-color: rgb(51, 51, 51);
-                  border-radius: 4px;
-                  font: 12px / 21px &quot;Microsoft YaHei&quot;;
-                  padding: 8px 12px;
-                  left: 302px;
-                  top: 155px;
-                  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 16px 0px;
-                  color: rgb(97, 102, 109);
-                  pointer-events: none;
-                "
-              >
-                <div class="tooltip" style="font-size: 12px">
-                  <div
-                    class="title"
-                    style="
-                      display: flex;
-                      flex-direction: row;
-                      margin-bottom: 6px;
-                    "
-                  >
-                    <div
-                      class="tooltip-date"
-                      style="font-weight: bold; color: #61666d"
-                    >
-                      6:00-7:00
-                    </div>
-                  </div>
-                  <div style="color: #61666d">
-                    <span
-                      style="
-                        display: inline-block;
-                        width: 6px;
-                        height: 6px;
-                        margin-right: 5px;
-                        background-color: #00aeec;
-                        border-radius: 6px;
-                      "
-                    />关注粉丝: 0
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div ref="chartRef" style="height: 300px" />
             <div class="bottom-tips">
-              <div class="type">
+              <div v-if="fansTypeFilter.anchor_guard_num" class="type">
                 <div class="dot" style="background-color: rgb(0 174 236)" />
                 关注粉丝
               </div>
-              <!----><!----><!----><!---->
+              <div v-if="fansTypeFilter.pay_user" class="type">
+                <div class="dot" style="background-color: rgb(255 102 153)" />
+                付费粉丝
+              </div>
+              <div v-if="fansTypeFilter.big_r_num" class="type">
+                <div class="dot" style="background-color: rgb(255 127 36)" />
+                大R粉丝
+              </div>
+              <div v-if="fansTypeFilter.live_fans" class="type">
+                <div class="dot" style="background-color: rgb(42 200 100)" />
+                大航海粉丝
+              </div>
+              <div v-if="fansTypeFilter.watch_num" class="type">
+                <div class="dot" style="background-color: rgb(172 109 255)" />
+                看过直播的用户
+              </div>
               <div class="live">你的开播时段</div>
             </div>
           </div>
@@ -285,6 +587,58 @@ const option = {
 
       .tab:hover:not(.active) {
         background-color: #ecf6fd;
+      }
+    }
+
+    .chart-wrap .header {
+      display: inline-flexbox;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      -ms-flex-align: center;
+
+      .title {
+        font-size: 14px;
+        color: #000;
+      }
+
+      .subtitle {
+        font-size: 12px;
+        color: #999;
+      }
+    }
+
+    .chart-wrap .bottom-tips {
+      display: flexbox;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin-top: 16px;
+      font-size: 12px;
+      color: #999;
+
+      .type {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 16px;
+
+        .dot {
+          width: 8px;
+          height: 8px;
+          margin-right: 6px;
+          border-radius: 50%;
+        }
+      }
+
+      .live::before {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        margin-right: 6px;
+        content: "";
+        background-color: #c8cbcf;
+        border-radius: 50%;
       }
     }
   }
