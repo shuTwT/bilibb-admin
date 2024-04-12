@@ -1,23 +1,95 @@
 import { http } from "@/utils/http";
 
-type Result = {
-  success: boolean;
-  data?: Array<any>;
+/**
+ * ServerInfo
+ */
+export interface ServerInfo {
+  cpuInfo: CpuInfo;
+  diskInfos: DiskInfo[];
+  jvmInfo: JvmInfo;
+  memoryInfo: MemoryInfo;
+  systemInfo: SystemInfo;
+}
+
+/**
+ * CpuInfo
+ */
+export interface CpuInfo {
+  cpuNum: number;
+  free: number;
+  sys: number;
+  total: number;
+  used: number;
+  wait: number;
+}
+
+/**
+ * DiskInfo
+ */
+export interface DiskInfo {
+  dirName: string;
+  free: string;
+  sysTypeName: string;
+  total: string;
+  typeName: string;
+  usage: number;
+  used: string;
+}
+
+/**
+ * JvmInfo
+ */
+export interface JvmInfo {
+  free: number;
+  home: string;
+  inputArgs: string;
+  max: number;
+  name: string;
+  runTime: string;
+  startTime: string;
+  total: number;
+  usage: number;
+  used: number;
+  version: string;
+}
+
+/**
+ * MemoryInfo
+ */
+export interface MemoryInfo {
+  free: number;
+  total: number;
+  usage: number;
+  used: number;
+}
+
+/**
+ * SystemInfo
+ */
+export interface SystemInfo {
+  computerIp: string;
+  computerName: string;
+  osArch: string;
+  osName: string;
+  userDir: string;
+}
+
+type Result<T = any> = {
+  code: number;
+  msg: string;
+  data?: T;
 };
 
-type ResultTable = {
-  success: boolean;
-  data?: {
-    /** 列表数据 */
-    list: Array<any>;
-    /** 总条目数 */
-    total?: number;
-    /** 每页显示条目个数 */
-    pageSize?: number;
-    /** 当前页数 */
-    currentPage?: number;
-  };
-};
+type ResultTable = Result<{
+  /** 列表数据 */
+  list: Array<any>;
+  /** 总条目数 */
+  total?: number;
+  /** 每页显示条目个数 */
+  pageSize?: number;
+  /** 当前页数 */
+  currentPage?: number;
+}>;
 
 /** 获取系统管理-用户管理列表 */
 export const getUserList = (params?: object) => {
@@ -198,4 +270,14 @@ export const deleteSystemDictData = (data: number[]) => {
       dictCodes: data.toString()
     }
   });
+};
+
+/** 获取服务器信息 */
+export const getServerInfoApi = () => {
+  return http.request<Result<ServerInfo>>("get", "/monitor/serverInfo");
+};
+
+/** 获取Redis信息 */
+export const getCacheInfoApi = () => {
+  return http.request<Result<ServerInfo>>("get", "/monitor/cacheInfo");
 };
