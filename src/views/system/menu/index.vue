@@ -60,7 +60,7 @@ const {
     </el-form>
 
     <PureTableBar
-      title="菜单管理（初版，持续完善中）"
+      title="菜单管理"
       :columns="columns"
       :isExpandAll="false"
       :tableRef="tableRef?.getTableRef()"

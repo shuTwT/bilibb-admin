@@ -54,7 +54,7 @@ import VueTippy from "vue-tippy";
 app.use(VueTippy);
 
 // 连接SSE流
-const source = new EventSource("/api/notice/msg");
+const source = new EventSource("/api/system/notice/msg");
 source.onopen = () => console.log("Connection opened");
 source.onerror = console.error;
 source.onmessage = ({ data }) => {

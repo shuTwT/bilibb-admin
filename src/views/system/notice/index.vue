@@ -55,23 +55,11 @@ const {
   columns,
   rowStyle,
   dataList,
-  treeData,
-  treeProps,
-  isLinkage,
   pagination,
-  isExpandAll,
-  isSelectAll,
-  treeSearchValue,
-  // buttonClass,
   onSearch,
   resetForm,
   openDialog,
-  handleMenu,
-  handleSave,
   handleDelete,
-  filterMethod,
-  onQueryChanged,
-  // handleDatabase,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange
@@ -97,32 +85,32 @@ onMounted(() => {
       :model="form"
       class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px] overflow-auto"
     >
-      <el-form-item label="角色名称：" prop="name">
+      <el-form-item label="公告标题：" prop="name">
         <el-input
-          v-model="form.name"
-          placeholder="请输入角色名称"
+          v-model="form.noticeTitle"
+          placeholder="请输入公告标题"
           clearable
           class="!w-[180px]"
         />
       </el-form-item>
-      <el-form-item label="角色标识：" prop="code">
-        <el-input
-          v-model="form.code"
-          placeholder="请输入角色标识"
-          clearable
-          class="!w-[180px]"
-        />
-      </el-form-item>
-      <el-form-item label="状态：" prop="status">
+      <el-form-item label="公告类型：" prop="status">
         <el-select
-          v-model="form.status"
-          placeholder="请选择状态"
+          v-model="form.noticeType"
+          placeholder="请选择类型"
           clearable
           class="!w-[180px]"
         >
-          <el-option label="已启用" value="1" />
-          <el-option label="已停用" value="0" />
+          <el-option label="通知" value="1" />
+          <el-option label="公告" value="2" />
         </el-select>
+      </el-form-item>
+      <el-form-item label="创建者：" prop="code">
+        <el-input
+          v-model="form.createBy"
+          placeholder="请输入创建者"
+          clearable
+          class="!w-[180px]"
+        />
       </el-form-item>
       <el-form-item>
         <el-button
@@ -146,7 +134,7 @@ onMounted(() => {
       <PureTableBar
         :class="[isShow && !deviceDetection() ? '!w-[60vw]' : 'w-full']"
         style="transition: width 220ms cubic-bezier(0.4, 0, 0.2, 1)"
-        title="角色管理（仅演示，操作后不生效）"
+        title="通知公告"
         :columns="columns"
         @refresh="onSearch"
       >
@@ -156,7 +144,7 @@ onMounted(() => {
             :icon="useRenderIcon(AddFill)"
             @click="openDialog()"
           >
-            新增角色
+            新增通知公告
           </el-button>
         </template>
         <template v-slot="{ size, dynamicColumns }">
@@ -194,7 +182,7 @@ onMounted(() => {
                 修改
               </el-button>
               <el-popconfirm
-                :title="`是否确认删除角色名称为${row.name}的这条数据`"
+                :title="`是否确认删除标题为${row.name}的这条数据`"
                 @confirm="handleDelete(row)"
               >
                 <template #reference>
@@ -209,120 +197,10 @@ onMounted(() => {
                   </el-button>
                 </template>
               </el-popconfirm>
-              <el-button
-                class="reset-margin"
-                link
-                type="primary"
-                :size="size"
-                :icon="useRenderIcon(Menu)"
-                @click="handleMenu(row)"
-              >
-                权限
-              </el-button>
-              <!-- <el-dropdown>
-              <el-button
-                class="ml-3 mt-[2px]"
-                link
-                type="primary"
-                :size="size"
-                :icon="useRenderIcon(More)"
-              />
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item>
-                    <el-button
-                      :class="buttonClass"
-                      link
-                      type="primary"
-                      :size="size"
-                      :icon="useRenderIcon(Menu)"
-                      @click="handleMenu"
-                    >
-                      菜单权限
-                    </el-button>
-                  </el-dropdown-item>
-                  <el-dropdown-item>
-                    <el-button
-                      :class="buttonClass"
-                      link
-                      type="primary"
-                      :size="size"
-                      :icon="useRenderIcon(Database)"
-                      @click="handleDatabase"
-                    >
-                      数据权限
-                    </el-button>
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown> -->
             </template>
           </pure-table>
         </template>
       </PureTableBar>
-
-      <div
-        v-if="isShow"
-        class="!min-w-[calc(100vw-60vw-268px)] mt-2 px-2 pb-2 bg-bg_color ml-2 overflow-auto"
-      >
-        <div class="flex justify-between w-full px-3 pt-5 pb-4">
-          <div class="flex">
-            <span :class="iconClass">
-              <IconifyIconOffline
-                v-tippy="{
-                  content: '关闭'
-                }"
-                class="dark:text-white"
-                width="18px"
-                height="18px"
-                :icon="Close"
-                @click="handleMenu"
-              />
-            </span>
-            <span :class="[iconClass, 'ml-2']">
-              <IconifyIconOffline
-                v-tippy="{
-                  content: '保存菜单权限'
-                }"
-                class="dark:text-white"
-                width="18px"
-                height="18px"
-                :icon="Check"
-                @click="handleSave"
-              />
-            </span>
-          </div>
-          <p class="font-bold truncate">
-            菜单权限
-            {{ `${curRow?.name ? `（${curRow.name}）` : ""}` }}
-          </p>
-        </div>
-        <el-input
-          v-model="treeSearchValue"
-          placeholder="请输入菜单进行搜索"
-          class="mb-1"
-          clearable
-          @input="onQueryChanged"
-        />
-        <div class="flex flex-wrap">
-          <el-checkbox v-model="isExpandAll" label="展开/折叠" />
-          <el-checkbox v-model="isSelectAll" label="全选/全不选" />
-          <el-checkbox v-model="isLinkage" label="父子联动" />
-        </div>
-        <el-tree-v2
-          ref="treeRef"
-          show-checkbox
-          :data="treeData"
-          :props="treeProps"
-          :height="treeHeight"
-          :check-strictly="!isLinkage"
-          :filter-method="filterMethod"
-        >
-          <template #default="{ node }">
-            <span>{{ node.label }}</span>
-          </template>
-        </el-tree-v2>
-      </div>
     </div>
   </div>
 </template>
