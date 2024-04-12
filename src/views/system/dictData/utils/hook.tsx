@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { useRoute } from "vue-router";
 import editForm from "../form.vue";
 import { message } from "@/utils/message";
 import { addDialog } from "@/components/ReDialog";
@@ -6,19 +7,20 @@ import type { FormItemProps } from "./types";
 import type { PaginationProps } from "@pureadmin/table";
 import { deviceDetection } from "@pureadmin/utils";
 import {
-  getSystemNoticeList,
-  addSystemNotice,
-  updateSystemNotice,
-  deleteSystemNotice
+  getSystemDictDataList,
+  updateSystemDictData,
+  addSystemDictData,
+  deleteSystemDictData
 } from "@/api/system";
 import { type Ref, reactive, ref, onMounted, h, toRaw } from "vue";
 
 export function useRole(treeRef: Ref) {
   const form = reactive({
-    noticeTitle: "",
-    noticeType: "",
-    createBy: ""
+    dictLabel: "",
+    dictType: "",
+    status: ""
   });
+  const route = useRoute();
   const curRow = ref();
   const formRef = ref();
   const dataList = ref([]);
@@ -26,12 +28,6 @@ export function useRole(treeRef: Ref) {
   const isShow = ref(false);
   const loading = ref(true);
   const isLinkage = ref(false);
-  const treeSearchValue = ref();
-  const treeProps = {
-    value: "id",
-    label: "title",
-    children: "children"
-  };
   const pagination = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,
@@ -41,23 +37,19 @@ export function useRole(treeRef: Ref) {
   const columns: TableColumnList = [
     {
       label: "编号",
-      prop: "noticeId"
+      prop: "dictCode"
     },
     {
-      label: "标题",
-      prop: "noticeTitle"
+      label: "字典标签",
+      prop: "dictLabel"
     },
     {
-      label: "类型",
-      cellRenderer: ({ row, props }) => (
-        <el-tag
-          size={props.size}
-          type={row.noticeType == 1 ? "warning" : "success"}
-          effect="plain"
-        >
-          {row.status == 1 ? "通知" : "公告"}
-        </el-tag>
-      )
+      label: "字典键值",
+      prop: "dictValue"
+    },
+    {
+      label: "字典排序",
+      prop: "dictSort"
     },
     {
       label: "状态",
@@ -67,14 +59,14 @@ export function useRole(treeRef: Ref) {
           type={row.status == 1 ? "danger" : null}
           effect="plain"
         >
-          {row.status == 1 ? "关闭" : "正常"}
+          {row.status == 1 ? "停用" : "正常"}
         </el-tag>
       ),
       minWidth: 90
     },
     {
-      label: "创建者",
-      prop: "createBy",
+      label: "备注",
+      prop: "remark",
       minWidth: 160
     },
     {
@@ -93,7 +85,7 @@ export function useRole(treeRef: Ref) {
   ];
 
   function handleDelete(row) {
-    deleteSystemNotice([row.noticeId]).then(() => {
+    deleteSystemDictData([row.dictId]).then(() => {
       message(`您删除了角色名称为${row.name}的这条数据`, { type: "success" });
       onSearch();
     });
@@ -113,7 +105,9 @@ export function useRole(treeRef: Ref) {
 
   async function onSearch() {
     loading.value = true;
-    const { data } = (await getSystemNoticeList(toRaw(form))) as any;
+    console.log(route.params);
+    form.dictType = String(route.params.dictType);
+    const { data } = (await getSystemDictDataList(toRaw(form))) as any;
     dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
@@ -132,17 +126,18 @@ export function useRole(treeRef: Ref) {
 
   function openDialog(title = "新增", row?: FormItemProps) {
     addDialog({
-      title: `${title}通知公告`,
+      title: `${title}字典类型`,
       props: {
         formInline: {
-          noticeTitle: row?.noticeTitle ?? "",
-          noticeType: row?.noticeType ?? "1",
-          noticeContent: row?.noticeContent ?? "",
+          dictSort: row?.dictSort ?? 0,
+          dictLabel: row?.dictLabel ?? "",
+          dictValue: row?.dictValue ?? "",
+          dictType: row?.dictType ?? String(route.params.dictType),
           status: row?.status ?? "0",
           remark: row?.remark ?? ""
         }
       },
-      width: "40%",
+      width: "30%",
       draggable: true,
       fullscreen: deviceDetection(),
       fullscreenIcon: true,
@@ -152,7 +147,7 @@ export function useRole(treeRef: Ref) {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
         function chores() {
-          message(`您${title}了标题为${curData.noticeTitle}的这条数据`, {
+          message(`您${title}了编号为${curData.dictCode}的这条数据`, {
             type: "success"
           });
           done(); // 关闭弹框
@@ -164,12 +159,12 @@ export function useRole(treeRef: Ref) {
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作
-              addSystemNotice(curData).then(() => {
+              addSystemDictData(curData).then(() => {
                 chores();
               });
             } else {
               // 实际开发先调用修改接口，再进行下面操作
-              updateSystemNotice(row.noticeId, curData).then(() => {
+              updateSystemDictData(row.dictCode, curData).then(() => {
                 chores();
               });
             }
@@ -180,11 +175,11 @@ export function useRole(treeRef: Ref) {
   }
 
   /** 高亮当前权限选中行 */
-  function rowStyle({ row: { noticeId } }) {
+  function rowStyle({ row: { dictCode } }) {
     return {
       cursor: "pointer",
       background:
-        noticeId === curRow.value?.noticeId ? "var(--el-fill-color-light)" : ""
+        dictCode === curRow.value?.dictCode ? "var(--el-fill-color-light)" : ""
     };
   }
 
@@ -209,10 +204,8 @@ export function useRole(treeRef: Ref) {
     rowStyle,
     dataList,
     treeData,
-    treeProps,
     isLinkage,
     pagination,
-    treeSearchValue,
     // buttonClass,
     onSearch,
     resetForm,

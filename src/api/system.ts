@@ -141,3 +141,61 @@ export const deleteSystemNotice = (data: number[]) => {
     }
   });
 };
+
+export const getSystemDictTypeList = (params: object) => {
+  return http.request<Result>("get", "/api/system/dict/type", {
+    params
+  });
+};
+
+export const getSystemDictType = (dictId: number) => {
+  return http.request<Result>("get", "/api/system/dict/type/" + dictId);
+};
+
+export const addSystemDictType = (data: object) => {
+  return http.request<Result>("post", "/api/system/dict/type/", { data });
+};
+
+export const updateSystemDictType = (dictId: number, data: object) => {
+  return http.request<Result>("put", "/api/system/dict/type/" + dictId, {
+    data
+  });
+};
+
+export const deleteSystemDictType = (data: number[]) => {
+  return http.request<Result>("delete", "/api/system/dict/type/", {
+    params: {
+      // 需要将数组转换为字符串  否则Axios会将参数变成 noticeIds[0]:1  noticeIds[1]:2 这种格式，后端接收参数不成功
+      dictIds: data.toString()
+    }
+  });
+};
+
+export const getSystemDictDataList = (params: object) => {
+  return http.request<Result>("get", "/api/system/dict/data", {
+    params
+  });
+};
+
+export const getSystemDictData = (dictCode: number) => {
+  return http.request<Result>("get", "/api/system/dict/data/" + dictCode);
+};
+
+export const addSystemDictData = (data: object) => {
+  return http.request<Result>("post", "/api/system/dict/data", { data });
+};
+
+export const updateSystemDictData = (dictCode: number, data: object) => {
+  return http.request<Result>("put", "/api/system/dict/data/" + dictCode, {
+    data
+  });
+};
+
+export const deleteSystemDictData = (data: number[]) => {
+  return http.request<Result>("delete", "/api/system/dict/data/", {
+    params: {
+      // 需要将数组转换为字符串  否则Axios会将参数变成 noticeIds[0]:1  noticeIds[1]:2 这种格式，后端接收参数不成功
+      dictCodes: data.toString()
+    }
+  });
+};
