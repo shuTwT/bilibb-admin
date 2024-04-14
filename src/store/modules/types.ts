@@ -42,3 +42,10 @@ export type userType = {
   isRemembered?: boolean;
   loginDay?: number;
 };
+
+export type dictType = {
+  dict: Array<{
+    dictType: string;
+    dictData: object;
+  }>;
+};
