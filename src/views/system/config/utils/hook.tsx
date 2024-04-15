@@ -6,18 +6,19 @@ import type { FormItemProps } from "./types";
 import type { PaginationProps } from "@pureadmin/table";
 import { deviceDetection } from "@pureadmin/utils";
 import {
-  getSystemDictTypeList,
-  updateSystemDictType,
-  addSystemDictType,
-  deleteSystemDictType
+  getSystemConfigList,
+  updateSystemConfig,
+  addSystemConfig,
+  deleteSystemConfig,
+  refreshSystemConfig
 } from "@/api/system";
 import { type Ref, reactive, ref, onMounted, h, toRaw } from "vue";
 
-export function useDictType(treeRef: Ref) {
+export function useConfig(treeRef: Ref) {
   const form = reactive({
-    dictName: "",
-    dictType: "",
-    status: ""
+    configName: "",
+    configKey: "",
+    configType: ""
   });
   const curRow = ref();
   const formRef = ref();
@@ -86,8 +87,8 @@ export function useDictType(treeRef: Ref) {
   ];
 
   function handleDelete(row) {
-    deleteSystemDictType([row.dictId]).then(() => {
-      message(`您删除了角色名称为${row.name}的这条数据`, { type: "success" });
+    deleteSystemConfig([row.configId]).then(() => {
+      message(`您删除了编号为${row.configId}的这条数据`, { type: "success" });
       onSearch();
     });
   }
@@ -106,7 +107,7 @@ export function useDictType(treeRef: Ref) {
 
   async function onSearch() {
     loading.value = true;
-    const { data } = (await getSystemDictTypeList(toRaw(form))) as any;
+    const { data } = (await getSystemConfigList(toRaw(form))) as any;
     dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
@@ -128,10 +129,11 @@ export function useDictType(treeRef: Ref) {
       title: `${title}字典类型`,
       props: {
         formInline: {
-          dictId: row?.dictId ?? "",
-          dictName: row?.dictName ?? "",
-          dictType: row?.dictType ?? "",
-          status: row?.status ?? "0",
+          configId: row?.configId ?? "",
+          configName: row?.configName ?? "",
+          configKey: row?.configKey ?? "",
+          configValue: row?.configValue ?? "",
+          configType: row?.configType ?? "",
           remark: row?.remark ?? ""
         }
       },
@@ -145,7 +147,7 @@ export function useDictType(treeRef: Ref) {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
         function chores() {
-          message(`您${title}了编号为${curData.dictId}的这条数据`, {
+          message(`您${title}了编号为${curData.configId}的这条数据`, {
             type: "success"
           });
           done(); // 关闭弹框
@@ -157,12 +159,12 @@ export function useDictType(treeRef: Ref) {
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作
-              addSystemDictType(curData).then(() => {
+              addSystemConfig(curData).then(() => {
                 chores();
               });
             } else {
               // 实际开发先调用修改接口，再进行下面操作
-              updateSystemDictType(row.dictId, curData).then(() => {
+              updateSystemConfig(row.configId, curData).then(() => {
                 chores();
               });
             }
@@ -193,6 +195,14 @@ export function useDictType(treeRef: Ref) {
     onSearch();
   });
 
+  const refreshConfig = () => {
+    refreshSystemConfig().then(() => {
+      message(`刷新参数缓存成功`, {
+        type: "success"
+      });
+    });
+  };
+
   return {
     form,
     isShow,
@@ -212,6 +222,7 @@ export function useDictType(treeRef: Ref) {
     filterMethod,
     onQueryChanged,
     // handleDatabase,
+    refreshConfig,
     handleSizeChange,
     handleCurrentChange,
     handleSelectionChange

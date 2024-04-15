@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useDictData } from "./utils/hook";
+import { useConfig } from "./utils/hook";
 import { ref, computed, nextTick, onMounted } from "vue";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -19,6 +19,7 @@ import Menu from "@iconify-icons/ep/menu";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 import Close from "@iconify-icons/ep/close";
 import Check from "@iconify-icons/ep/check";
+import RefreshRight from "@iconify-icons/ep/refresh-right";
 
 defineOptions({
   name: "SystemRole"
@@ -60,10 +61,11 @@ const {
   resetForm,
   openDialog,
   handleDelete,
+  refreshConfig,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange
-} = useDictData(treeRef);
+} = useConfig(treeRef);
 
 onMounted(() => {
   useResizeObserver(contentRef, async () => {
@@ -85,17 +87,25 @@ onMounted(() => {
       :model="form"
       class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px] overflow-auto"
     >
-      <el-form-item label="字典标签：" prop="dictLabel">
+      <el-form-item label="参数名称：" prop="configName">
         <el-input
-          v-model="form.dictLabel"
-          placeholder="请输入字典标签"
+          v-model="form.configName"
+          placeholder="请输入参数名称"
           clearable
           class="!w-[180px]"
         />
       </el-form-item>
-      <el-form-item label="状态：" prop="status">
+      <el-form-item label="字参数键名：" prop="configKey">
+        <el-input
+          v-model="form.configKey"
+          placeholder="请输入参数键"
+          clearable
+          class="!w-[180px]"
+        />
+      </el-form-item>
+      <el-form-item label="参数类型：" prop="configType">
         <el-select
-          v-model="form.status"
+          v-model="form.configType"
           placeholder="请选择状态"
           clearable
           class="!w-[180px]"
@@ -126,7 +136,7 @@ onMounted(() => {
       <PureTableBar
         :class="[isShow && !deviceDetection() ? '!w-[60vw]' : 'w-full']"
         style="transition: width 220ms cubic-bezier(0.4, 0, 0.2, 1)"
-        title="字典数据"
+        title="参数配置"
         :columns="columns"
         @refresh="onSearch"
       >
@@ -136,7 +146,14 @@ onMounted(() => {
             :icon="useRenderIcon(AddFill)"
             @click="openDialog()"
           >
-            新增字典数据
+            新增参数
+          </el-button>
+          <el-button
+            type="warning"
+            :icon="useRenderIcon(RefreshRight)"
+            @click="refreshConfig()"
+          >
+            刷新参数缓存
           </el-button>
         </template>
         <template v-slot="{ size, dynamicColumns }">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRole } from "./utils/hook";
+import { useDictType } from "./utils/hook";
 import { ref, computed, nextTick, onMounted } from "vue";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -63,7 +63,7 @@ const {
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange
-} = useRole(treeRef);
+} = useDictType(treeRef);
 
 onMounted(() => {
   useResizeObserver(contentRef, async () => {

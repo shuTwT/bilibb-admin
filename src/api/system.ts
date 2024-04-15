@@ -274,10 +274,36 @@ export const deleteSystemDictData = (data: number[]) => {
 
 /** 获取服务器信息 */
 export const getServerInfoApi = () => {
-  return http.request<Result<ServerInfo>>("get", "/monitor/serverInfo");
+  return http.request<Result<ServerInfo>>("get", "/api/monitor/serverInfo");
 };
 
 /** 获取Redis信息 */
 export const getCacheInfoApi = () => {
-  return http.request<Result<ServerInfo>>("get", "/monitor/cacheInfo");
+  return http.request<Result<ServerInfo>>("get", "/api/monitor/cacheInfo");
+};
+
+export const getSystemConfigList = (params: object) => {
+  return http.request<Result>("get", "/api/system/config", { params });
+};
+
+export const getSystemConfigDetail = (configId: number) => {
+  return http.request<Result>("get", "/api/system/config/" + configId);
+};
+
+export const addSystemConfig = (data: object) => {
+  return http.request<Result>("post", "/api/system/config", { data });
+};
+
+export const updateSystemConfig = (configId: number, data: object) => {
+  return http.request<Result>("put", "/api/system/config/" + configId, {
+    data
+  });
+};
+
+export const deleteSystemConfig = (configId: number[]) => {
+  return http.request<Result>("delete", "/api/system/config/" + configId);
+};
+
+export const refreshSystemConfig = () => {
+  return http.request<Result>("post", "/api/system/config/refresh-cache");
 };

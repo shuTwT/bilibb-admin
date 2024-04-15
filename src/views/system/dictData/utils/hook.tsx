@@ -14,7 +14,7 @@ import {
 } from "@/api/system";
 import { type Ref, reactive, ref, onMounted, h, toRaw } from "vue";
 
-export function useRole(treeRef: Ref) {
+export function useDictData(treeRef: Ref) {
   const form = reactive({
     dictLabel: "",
     dictType: "",
