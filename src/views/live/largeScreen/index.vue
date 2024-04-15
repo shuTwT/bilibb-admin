@@ -3,22 +3,18 @@
 import bili_favicon from "@/assets/bili-favicon.png";
 import autoFit from "autofit.js";
 import { useDark } from "@pureadmin/utils";
-import { ref, onBeforeMount, onBeforeUnmount, onMounted } from "vue";
+import { onBeforeMount, onBeforeUnmount } from "vue";
 import { refreshLargeScreenData } from "@/api/live";
 import { reactive } from "vue";
+import { useLargeScreen } from "./utils/hook";
 
 defineOptions({
   name: "LargeScreen"
 });
 
+const { isLoaded, largeScreenData, chart1Ref, chart2Ref, chart3Ref } =
+  useLargeScreen();
 const { isDark, toggleDark } = useDark();
-const dropdownList1 = ref([]);
-const isComp1Loaded = ref(false);
-const isComp2Loaded = ref(false);
-const isComp3Loaded = ref(false);
-const isComp4Loaded = ref(false);
-const isComp5Loaded = ref(false);
-const isComp6Loaded = ref(false);
 const rankingBoardConfig = reactive({
   data: [
     {
@@ -74,37 +70,7 @@ const ActiveRingChartConfig = reactive({
     }
   ]
 });
-const largeScreenData = reactive({
-  Room: {
-    id: 1,
-    roomId: "",
-    roomOwnerUid: "",
-    description: "",
-    parentAreaName: "",
-    title: "",
-    userCover: "",
-    keyframe: "",
-    tags: "",
-    areaName: ""
-  },
-  todayData: {
-    comment: "今日数据",
-    newEntryNum: 228,
-    entryNum: 2000,
-    spekNum: 2000,
-    entryNumfor7day: {
-      entryNum: [0, 0, 0, 0, 0, 0, 0],
-      newEntryNum: [0, 0, 0, 0, 0, 0, 0]
-    },
-    speakNumfor7day: {
-      speakNum: [0, 0, 0, 0, 0, 0, 0],
-      speakPeopleNum: [0, 0, 0, 0, 0, 0, 0]
-    }
-  }
-});
-const chart1Option = reactive({});
-const chart2Option = reactive({});
-const chart3Option = reactive({});
+
 let pollTimer = null;
 
 const onTick = () => {
@@ -140,16 +106,6 @@ onBeforeMount(() => {
   });
 });
 
-onMounted(() => {
-  setTimeout(() => {
-    isComp1Loaded.value = true;
-    isComp2Loaded.value = true;
-    isComp3Loaded.value = true;
-    isComp4Loaded.value = true;
-    isComp5Loaded.value = true;
-    isComp6Loaded.value = true;
-  }, 2000);
-});
 onBeforeUnmount(() => {
   autoFit.off();
   if (isDark.value) {
@@ -197,31 +153,34 @@ onBeforeUnmount(() => {
             </div>
           </div>
           <div class="card-body">
-            <template v-if="!isComp1Loaded">
+            <template v-if="!isLoaded">
               <dv-loading>
                 <div color-white>Loading...</div>
               </dv-loading>
             </template>
             <template v-else>
-              <div class="flex w-full" style="margin: 0 5px">
-                <div class="mini-card mini-card-1" color-white>
-                  <div class="mini-card-content">
-                    <div class="title">新增关注</div>
-                    <div class="num" />
+              <div class="flex w-full flex-col" style="margin: 0 5px">
+                <div class="flex w-full">
+                  <div class="mini-card mini-card-1" color-white>
+                    <div class="mini-card-content">
+                      <div class="title">新增关注</div>
+                      <div class="num" />
+                    </div>
+                  </div>
+                  <div class="mini-card mini-card-2" color-white>
+                    <div class="mini-card-content">
+                      <div class="title">加入粉丝团人数</div>
+                      <div class="num" />
+                    </div>
+                  </div>
+                  <div class="mini-card mini-card-3" color-white>
+                    <div class="mini-card-content">
+                      <div class="title">发送弹幕</div>
+                      <div class="num" />
+                    </div>
                   </div>
                 </div>
-                <div class="mini-card mini-card-2" color-white>
-                  <div class="mini-card-content">
-                    <div class="title">加入粉丝团人数</div>
-                    <div class="num" />
-                  </div>
-                </div>
-                <div class="mini-card mini-card-3" color-white>
-                  <div class="mini-card-content">
-                    <div class="title">发送弹幕</div>
-                    <div class="num" />
-                  </div>
-                </div>
+                <div ref="chart1Ref" class="flex flex-1" />
               </div>
             </template>
           </div>
@@ -231,7 +190,7 @@ onBeforeUnmount(() => {
     <div class="component2">
       <div class="card-body">
         <dv-border-box1 ref="borderRef">
-          <template v-if="!isComp2Loaded">
+          <template v-if="!isLoaded">
             <dv-loading>
               <div color-white>Loading...</div>
             </dv-loading>
@@ -298,7 +257,7 @@ onBeforeUnmount(() => {
             </div>
           </div>
           <div class="card-body">
-            <template v-if="!isComp3Loaded">
+            <template v-if="!isLoaded">
               <dv-loading>
                 <div color-white>Loading...</div>
               </dv-loading>
@@ -332,31 +291,34 @@ onBeforeUnmount(() => {
             </div>
           </div>
           <div class="card-body">
-            <template v-if="!isComp4Loaded">
+            <template v-if="!isLoaded">
               <dv-loading>
                 <div color-white>Loading...</div>
               </dv-loading>
             </template>
             <template v-else>
-              <div class="flex w-full" style="margin: 0 5px">
-                <div class="mini-card mini-card-1" color-white>
-                  <div class="mini-card-content">
-                    <div class="title">在线人数</div>
-                    <div class="num" />
+              <div class="flex w-full flex-col" style="margin: 0 5px">
+                <div class="flex w-full">
+                  <div class="mini-card mini-card-1" color-white>
+                    <div class="mini-card-content">
+                      <div class="title">在线人数</div>
+                      <div class="num" />
+                    </div>
+                  </div>
+                  <div class="mini-card mini-card-2" color-white>
+                    <div class="mini-card-content">
+                      <div class="title">进房人数</div>
+                      <div class="num" />
+                    </div>
+                  </div>
+                  <div class="mini-card mini-card-3" color-white>
+                    <div class="mini-card-content">
+                      <div class="title">离开人数</div>
+                      <div class="num" />
+                    </div>
                   </div>
                 </div>
-                <div class="mini-card mini-card-2" color-white>
-                  <div class="mini-card-content">
-                    <div class="title">进房人数</div>
-                    <div class="num" />
-                  </div>
-                </div>
-                <div class="mini-card mini-card-3" color-white>
-                  <div class="mini-card-content">
-                    <div class="title">离开人数</div>
-                    <div class="num" />
-                  </div>
-                </div>
+                <div ref="chart2Ref" class="flex flex-1" />
               </div>
             </template>
           </div>
@@ -382,13 +344,35 @@ onBeforeUnmount(() => {
             </div>
           </div>
           <div class="card-body">
-            <template v-if="!isComp5Loaded">
+            <template v-if="!isLoaded">
               <dv-loading>
                 <div color-white>Loading...</div>
               </dv-loading>
             </template>
             <template v-else>
-              <div />
+              <div class="flex w-full flex-col" style="margin: 0 5px">
+                <div class="flex w-full">
+                  <div class="mini-card mini-card-1" color-white>
+                    <div class="mini-card-content">
+                      <div class="title">直播推荐</div>
+                      <div class="num" />
+                    </div>
+                  </div>
+                  <div class="mini-card mini-card-2" color-white>
+                    <div class="mini-card-content">
+                      <div class="title">短视频引流</div>
+                      <div class="num" />
+                    </div>
+                  </div>
+                  <div class="mini-card mini-card-3" color-white>
+                    <div class="mini-card-content">
+                      <div class="title">分享</div>
+                      <div class="num" />
+                    </div>
+                  </div>
+                </div>
+                <div ref="chart3Ref" class="flex flex-1" />
+              </div>
             </template>
           </div>
         </dv-border-box8>
@@ -413,7 +397,7 @@ onBeforeUnmount(() => {
             </div>
           </div>
           <div class="card-body">
-            <template v-if="!isComp6Loaded">
+            <template v-if="!isLoaded">
               <dv-loading>
                 <div color-white>Loading...</div>
               </dv-loading>
@@ -471,7 +455,8 @@ onBeforeUnmount(() => {
 }
 
 .component1,
-.component4 {
+.component4,
+.component5 {
   position: absolute;
   top: 70px;
   left: 18px;
