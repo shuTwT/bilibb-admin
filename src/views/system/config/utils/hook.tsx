@@ -36,32 +36,29 @@ export function useConfig(treeRef: Ref) {
   const columns: TableColumnList = [
     {
       label: "编号",
-      prop: "dictId"
+      prop: "configId"
     },
     {
-      label: "字典名称",
-      prop: "dictName"
+      label: "参数名称",
+      prop: "configName"
     },
     {
-      label: "类型",
-      cellRenderer: ({ row }) => (
-        <router-link
-          to={"/system/dict-data/index/" + row.dictType}
-          class="link-type text-[#337ab7] hover:text-[#20a0ff] focus:text-[#337ab7] focus:hover:text-[#20a0ff]"
-        >
-          <span>{row.dictType}</span>
-        </router-link>
-      )
+      label: "参数键名",
+      prop: "configKey"
     },
     {
-      label: "状态",
+      label: "参数键值",
+      prop: "configValue"
+    },
+    {
+      label: "是否内置",
       cellRenderer: ({ row, props }) => (
         <el-tag
           size={props.size}
-          type={row.status == 1 ? "danger" : null}
+          type={row.status == 1 ? "success" : null}
           effect="plain"
         >
-          {row.status == 1 ? "关闭" : "正常"}
+          {row.status == 1 ? "否" : "是"}
         </el-tag>
       ),
       minWidth: 90
@@ -69,19 +66,19 @@ export function useConfig(treeRef: Ref) {
     {
       label: "备注",
       prop: "remark",
-      minWidth: 160
+      minWidth: 60
     },
     {
       label: "创建时间",
       prop: "createTime",
-      minWidth: 160,
+      minWidth: 120,
       formatter: ({ createTime }) =>
         dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
     },
     {
       label: "操作",
       fixed: "right",
-      width: 210,
+      width: 200,
       slot: "operation"
     }
   ];
@@ -126,14 +123,14 @@ export function useConfig(treeRef: Ref) {
 
   function openDialog(title = "新增", row?: FormItemProps) {
     addDialog({
-      title: `${title}字典类型`,
+      title: `${title}配置参数`,
       props: {
         formInline: {
           configId: row?.configId ?? "",
           configName: row?.configName ?? "",
           configKey: row?.configKey ?? "",
           configValue: row?.configValue ?? "",
-          configType: row?.configType ?? "",
+          configType: row?.configType ?? "1",
           remark: row?.remark ?? ""
         }
       },
@@ -175,11 +172,11 @@ export function useConfig(treeRef: Ref) {
   }
 
   /** 高亮当前权限选中行 */
-  function rowStyle({ row: { dictId } }) {
+  function rowStyle({ row: { configId } }) {
     return {
       cursor: "pointer",
       background:
-        dictId === curRow.value?.dictId ? "var(--el-fill-color-light)" : ""
+        configId === curRow.value?.configId ? "var(--el-fill-color-light)" : ""
     };
   }
 

@@ -55,14 +55,14 @@ defineExpose({ getRef });
       />
     </el-form-item>
 
-    <el-form-item label="参数类型">
+    <el-form-item label="是否内置">
       <el-select
         v-model="newFormInline.configType"
         placeholder="请选择类型"
         class="!w-[180px]"
       >
-        <el-option label="正常" value="0" />
-        <el-option label="停用" value="1" />
+        <el-option label="是" value="0" />
+        <el-option label="否" value="1" />
       </el-select>
     </el-form-item>
 

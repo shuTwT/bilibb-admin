@@ -1,87 +1,6 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { reactive, ref } from "vue";
-
-type DataType =
-  | "income"
-  | "broadcast"
-  | "fans"
-  | "watchedCount"
-  | "barrage"
-  | "watchTime";
-const dataTypeNames = {
-  income: "收益",
-  broadcast: "直播时长",
-  fans: "新增粉丝",
-  watchedCount: "累计观看",
-  barrage: "弹幕数",
-  watchTime: "累计有效观看时长"
-};
-const dataType = ref<DataType>("income");
-const dataTypeName = computed(() => dataTypeNames[dataType.value]);
-
-const indicator = [
-  {
-    name: "收益",
-    max: 100
-  },
-  {
-    name: "弹幕数量",
-    max: 100
-  },
-  {
-    name: "开播时长",
-    max: 100
-  },
-  {
-    name: "用户平均观看时长",
-    max: 100
-  },
-  {
-    name: "新增粉丝",
-    max: 100
-  },
-  {
-    name: "累计观看",
-    max: 100
-  }
-];
-const option = reactive({
-  radar: {
-    indicator: indicator,
-    polygon: true
-  },
-  series: [
-    {
-      type: "radar",
-      name: "你的直播",
-      radarStyle: {
-        stroke: "rgba(251, 114, 153,0.8)",
-        fill: "rgba(251, 114, 153,0.8)"
-      },
-      label: {
-        show: false
-      },
-      data: [0, 0, 0, 0, 0, 0]
-    },
-    {
-      type: "radar",
-      name: "同水平主播",
-      radarStyle: {
-        stroke: "rgba(35, 173, 229,0.8)",
-        fill: "rgba(35, 173, 229,0.8)"
-      },
-      label: {
-        show: false
-      },
-      data: [0, 0, 0, 0, 0, 0]
-    }
-  ]
-});
-
-const changeType = (type: DataType) => {
-  dataType.value = type;
-};
+import { useOverview } from "./utils/hook";
+const { option, changeType, dataType, dataTypeName, chartRef2 } = useOverview();
 </script>
 
 <template>
@@ -207,15 +126,15 @@ const changeType = (type: DataType) => {
                   </div>
                 </div>
               </div>
-              <div v-if="dataType != 'income'" class="data-chart-wrap">
+              <div
+                v-show="dataType != 'income' && dataType != 'watchTime'"
+                class="data-chart-wrap"
+              >
                 <div class="header">
                   <div class="title">近七日{{ dataTypeName }}</div>
                   <i class="icon-font icon-question" data-popover-uid="14" />
                 </div>
-                <div
-                  class="live-data-line-chart"
-                  _echarts_instance_="ec_1712826465958"
-                />
+                <div ref="chartRef2" class="live-data-line-chart" />
               </div>
             </div>
           </div>
@@ -246,7 +165,9 @@ const changeType = (type: DataType) => {
                   <div class="no-data">暂无数据</div>
                 </div>
               </div>
-              <div class="show-more">展开查看全部</div>
+              <router-link to="/live-data/fans-rank">
+                <div class="show-more">展开查看全部</div>
+              </router-link>
             </div>
           </div>
         </div>
