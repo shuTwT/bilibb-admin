@@ -38,16 +38,6 @@ export default {
       }
     },
     {
-      path: "/live/options",
-      name: "LiveOptions",
-      component: () => import("@/views/live/options/index.vue"),
-      meta: {
-        icon: "ri:bank-card-line",
-        title: "直播设置",
-        showParent: true
-      }
-    },
-    {
       path: "/live/user",
       name: "LiveUser",
       component: () => import("@/views/live/user/list/index.vue"),
