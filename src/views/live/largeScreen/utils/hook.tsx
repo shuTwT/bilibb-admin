@@ -79,8 +79,7 @@ export function useLargeScreen() {
           "20:00",
           "21:00",
           "22:00",
-          "23:00",
-          "24:00"
+          "23:00"
         ]
       },
       yAxis: {
@@ -89,7 +88,7 @@ export function useLargeScreen() {
       series: [
         {
           name: "新增关注",
-          data: [0],
+          data: new Array(24).fill(0),
           type: "line",
           smooth: false,
           lineStyle: {
@@ -104,7 +103,7 @@ export function useLargeScreen() {
         },
         {
           name: "加入粉丝团人数",
-          data: [0],
+          data: new Array(24).fill(0),
           type: "line",
           smooth: false,
           lineStyle: {
@@ -119,7 +118,7 @@ export function useLargeScreen() {
         },
         {
           name: "发送弹幕",
-          data: [0],
+          data: new Array(24).fill(0),
           type: "line",
           smooth: false,
           lineStyle: {
@@ -170,8 +169,7 @@ export function useLargeScreen() {
           "20:00",
           "21:00",
           "22:00",
-          "23:00",
-          "24:00"
+          "23:00"
         ]
       },
       yAxis: {
@@ -180,7 +178,7 @@ export function useLargeScreen() {
       series: [
         {
           name: "在线人数",
-          data: [0],
+          data: new Array(24).fill(0),
           type: "line",
           smooth: false,
           lineStyle: {
@@ -195,7 +193,7 @@ export function useLargeScreen() {
         },
         {
           name: "进房人数",
-          data: [0],
+          data: new Array(24).fill(0),
           type: "line",
           smooth: false,
           lineStyle: {
@@ -210,7 +208,7 @@ export function useLargeScreen() {
         },
         {
           name: "离开人数",
-          data: [0],
+          data: new Array(24).fill(0),
           type: "line",
           smooth: false,
           lineStyle: {
@@ -261,8 +259,7 @@ export function useLargeScreen() {
           "20:00",
           "21:00",
           "22:00",
-          "23:00",
-          "24:00"
+          "23:00"
         ]
       },
       yAxis: {
@@ -271,7 +268,7 @@ export function useLargeScreen() {
       series: [
         {
           name: "直播推荐",
-          data: [0],
+          data: new Array(24).fill(0),
           type: "line",
           smooth: false,
           lineStyle: {
@@ -286,7 +283,7 @@ export function useLargeScreen() {
         },
         {
           name: "短视频引流",
-          data: [0],
+          data: new Array(24).fill(0),
           type: "line",
           smooth: false,
           lineStyle: {
@@ -301,7 +298,7 @@ export function useLargeScreen() {
         },
         {
           name: "分享",
-          data: [0],
+          data: new Array(24).fill(0),
           type: "line",
           smooth: false,
           lineStyle: {

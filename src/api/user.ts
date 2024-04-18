@@ -1,4 +1,5 @@
 import { http } from "@/utils/http";
+import type { Result, TableResult } from "./types";
 
 export type UserResult = {
   success: boolean;
@@ -28,6 +29,21 @@ export type RefreshTokenResult = {
   };
 };
 
+export type UserInfo = {
+  /** 头像 */
+  avatar: string;
+  /** 用户名 */
+  username: string;
+  /** 昵称 */
+  nickname: string;
+  /** 邮箱 */
+  email: string;
+  /** 联系电话 */
+  phone: string;
+  /** 简介 */
+  description: string;
+};
+
 /** 登录 */
 export const getLogin = (data?: object) => {
   return http.request<UserResult>("post", "/api/login", { data });
@@ -38,4 +54,14 @@ export const refreshTokenApi = (data?: object) => {
   return http.request<RefreshTokenResult>("post", "/api/refresh-token", {
     data
   });
+};
+
+/** 账户设置-个人信息 */
+export const getMine = (data?: object) => {
+  return http.request<Result<UserInfo>>("get", "/api/mine", { data });
+};
+
+/** 账户设置-个人安全日志 */
+export const getMineLogs = (data?: object) => {
+  return http.request<TableResult>("get", "/api/mine-logs", { data });
 };

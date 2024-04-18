@@ -1,99 +1,9 @@
 import { http } from "@/utils/http";
-
-/**
- * ServerInfo
- */
-export interface ServerInfo {
-  cpuInfo: CpuInfo;
-  diskInfos: DiskInfo[];
-  jvmInfo: JvmInfo;
-  memoryInfo: MemoryInfo;
-  systemInfo: SystemInfo;
-}
-
-/**
- * CpuInfo
- */
-export interface CpuInfo {
-  cpuNum: number;
-  free: number;
-  sys: number;
-  total: number;
-  used: number;
-  wait: number;
-}
-
-/**
- * DiskInfo
- */
-export interface DiskInfo {
-  dirName: string;
-  free: string;
-  sysTypeName: string;
-  total: string;
-  typeName: string;
-  usage: number;
-  used: string;
-}
-
-/**
- * JvmInfo
- */
-export interface JvmInfo {
-  free: number;
-  home: string;
-  inputArgs: string;
-  max: number;
-  name: string;
-  runTime: string;
-  startTime: string;
-  total: number;
-  usage: number;
-  used: number;
-  version: string;
-}
-
-/**
- * MemoryInfo
- */
-export interface MemoryInfo {
-  free: number;
-  total: number;
-  usage: number;
-  used: number;
-}
-
-/**
- * SystemInfo
- */
-export interface SystemInfo {
-  computerIp: string;
-  computerName: string;
-  osArch: string;
-  osName: string;
-  userDir: string;
-}
-
-type Result<T = any> = {
-  code: number;
-  msg: string;
-  data?: T;
-};
-
-type ResultTable = Result<{
-  /** 列表数据 */
-  list: Array<any>;
-  /** 总条目数 */
-  total?: number;
-  /** 每页显示条目个数 */
-  pageSize?: number;
-  /** 当前页数 */
-  currentPage?: number;
-}>;
+import type { Result, ServerInfo, TableResult } from "./types";
 
 /** 获取系统管理-用户管理列表 */
 export const getUserList = (params?: object) => {
-  return http.request<ResultTable>("get", "/api/system/user", { params });
+  return http.request<TableResult>("get", "/api/system/user", { params });
 };
 
 /** 系统管理-用户管理-获取所有角色列表 */
@@ -108,7 +18,7 @@ export const getRoleIds = (data?: object) => {
 
 /** 获取系统管理-角色管理列表 */
 export const getRoleList = (params?: object) => {
-  return http.request<ResultTable>("get", "/api/system/role", { params });
+  return http.request<TableResult>("get", "/api/system/role", { params });
 };
 
 /** 获取系统管理-菜单管理列表 */
@@ -138,7 +48,7 @@ export const getDeptList = (params?: object) => {
 
 /** 获取系统监控-在线用户列表 */
 export const getOnlineLogsList = (params?: object) => {
-  return http.request<ResultTable>("get", "/api/monitor/online-logs", {
+  return http.request<TableResult>("get", "/api/monitor/online-logs", {
     params
   });
 };
@@ -149,19 +59,19 @@ export const offlineUser = (id: string, data?: object) => {
 
 /** 获取系统监控-登录日志列表 */
 export const getLoginLogsList = (data?: object) => {
-  return http.request<ResultTable>("post", "/api/monitor/login-logs", { data });
+  return http.request<TableResult>("post", "/api/monitor/login-logs", { data });
 };
 
 /** 获取系统监控-操作日志列表 */
 export const getOperationLogsList = (data?: object) => {
-  return http.request<ResultTable>("post", "/api/monitor/operation-logs", {
+  return http.request<TableResult>("post", "/api/monitor/operation-logs", {
     data
   });
 };
 
 /** 获取系统监控-系统日志列表 */
 export const getSystemLogsList = (data?: object) => {
-  return http.request<ResultTable>("post", "/api/monitor/system-logs", {
+  return http.request<TableResult>("post", "/api/monitor/system-logs", {
     data
   });
 };
@@ -306,4 +216,18 @@ export const deleteSystemConfig = (configId: number[]) => {
 
 export const refreshSystemConfig = () => {
   return http.request<Result>("post", "/api/system/config/refresh-cache");
+};
+
+/** 文件上传 */
+export const formUpload = data => {
+  return http.request<Result>(
+    "post",
+    "/api/upload",
+    { data },
+    {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    }
+  );
 };

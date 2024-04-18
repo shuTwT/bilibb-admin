@@ -1,27 +1,9 @@
 import { http } from "@/utils/http";
-
-type Result = {
-  code?: number;
-  success?: boolean;
-  data?: any;
-};
-
-type ConnectResult = {
-  success: boolean;
-  data?: any[];
-};
-
-type DanmuResult = {
-  success: boolean;
-  data?: {
-    /** 列表数据 */
-    list: Array<any>;
-  };
-};
+import type { Result, ArrayResult, TableResult } from "./types";
 
 /** 连接列表 */
 export const getConnectList = (params?: object) => {
-  return http.request<ConnectResult>("get", "/api/v1/connect/list", { params });
+  return http.request<ArrayResult>("get", "/api/v1/connect/list", { params });
 };
 
 /** 新增连接 */
@@ -36,7 +18,7 @@ export const removeConnect = (roomId: number | string) => {
 
 /** 弹幕列表 */
 export const getDanmuList = (params?: object) => {
-  return http.request<DanmuResult>("get", "/api/v1/danmu/list", { params });
+  return http.request<TableResult>("get", "/api/v1/danmu/list", { params });
 };
 
 /** 房间弹幕列表 */
@@ -44,14 +26,14 @@ export const getRoomDanmuList = (
   roomId: number | string | string[],
   params?: object
 ) => {
-  return http.request<DanmuResult>("get", "/api/v1/danmu/list/" + roomId, {
+  return http.request<TableResult>("get", "/api/v1/danmu/list/" + roomId, {
     params
   });
 };
 
 /** 直播历史列表 */
 export const getLiveList = (params?: object) => {
-  return http.request<Result>("get", "/api/v1/live/list", { params });
+  return http.request<TableResult>("get", "/api/v1/live/list", { params });
 };
 
 /** 直播设置 */
@@ -65,11 +47,11 @@ export const saveLiveOption = (data?: object) => {
 };
 
 export const getRoomList = (params?: object) => {
-  return http.request<Result>("get", "/api/v1/room/list", { params });
+  return http.request<TableResult>("get", "/api/v1/room/list", { params });
 };
 
 export const getUserList = (params?: object) => {
-  return http.request<Result>("get", "/api/v1/user/list", { params });
+  return http.request<TableResult>("get", "/api/v1/user/list", { params });
 };
 export const getUserInfo = (userId: string | number, params?: object) => {
   return http.request<Result>("get", "/api/v1/user/info/" + userId, { params });
