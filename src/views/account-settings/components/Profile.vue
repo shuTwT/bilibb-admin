@@ -13,6 +13,7 @@ defineOptions({
 });
 
 const imgSrc = ref("");
+const imgName = ref("");
 const cropperInfo = ref();
 const cropRef = ref();
 const uploadRef = ref();
@@ -57,6 +58,8 @@ const onChange = uploadFile => {
     imgSrc.value = e.target.result as string;
     isShow.value = true;
   };
+  console.log(uploadFile);
+  imgName.value = uploadFile.name;
   reader.readAsDataURL(uploadFile.raw);
 };
 
@@ -69,8 +72,9 @@ const handleClose = () => {
 const onCropper = info => (cropperInfo.value = info);
 
 const handleSubmitImage = () => {
+  console.log(cropperInfo.value);
   const formData = createFormData({
-    files: new File([cropperInfo.value], "avatar")
+    files: new File([cropperInfo.value], imgName.value)
   });
   formUpload(formData)
     .then(({ success, data }) => {
