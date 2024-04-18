@@ -219,7 +219,7 @@ export const refreshSystemConfig = () => {
 };
 
 /** 文件上传 */
-export const formUpload = (data: object) => {
+export const formUpload = (data: FormData) => {
   return http.request<Result>(
     "post",
     "/api/upload",

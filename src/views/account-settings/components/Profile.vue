@@ -58,7 +58,6 @@ const onChange = uploadFile => {
     imgSrc.value = e.target.result as string;
     isShow.value = true;
   };
-  console.log(uploadFile);
   imgName.value = uploadFile.name;
   reader.readAsDataURL(uploadFile.raw);
 };
@@ -69,12 +68,11 @@ const handleClose = () => {
   isShow.value = false;
 };
 
-const onCropper = info => (cropperInfo.value = info);
-
+const onCropper = ({ blob }) => (cropperInfo.value = blob);
 const handleSubmitImage = () => {
-  console.log(cropperInfo.value);
   const formData = createFormData({
-    files: new File([cropperInfo.value], imgName.value)
+    files: new File([cropperInfo.value], imgName.value),
+    name: imgName.value
   });
   formUpload(formData)
     .then(({ success, data }) => {
