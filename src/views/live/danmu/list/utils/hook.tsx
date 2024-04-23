@@ -79,13 +79,13 @@ export function useList() {
   async function onSearch() {
     console.log(route.params.roomId);
     loading.value = true;
-    const { data, count } = await getRoomDanmuList(route.params.roomId, {
+    const { data } = await getRoomDanmuList(route.params.roomId, {
       ...toRaw(form),
-      limit: pagination.pageSize,
-      page: pagination.currentPage
+      pageSize: pagination.pageSize,
+      pageNum: pagination.currentPage
     });
-    dataList.value = data as any;
-    pagination.total = count;
+    dataList.value = data.list as any;
+    pagination.total = data.total;
     setTimeout(() => {
       loading.value = false;
     }, 500);

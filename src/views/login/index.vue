@@ -50,7 +50,7 @@ const onLogin = async (formEl: FormInstance | undefined) => {
           uuid: nanoid()
         })
         .then(res => {
-          if (res.success) {
+          if (res.code == 200) {
             // 获取后端路由
             initRouter().then(() => {
               router.push(getTopMenu(true).path);

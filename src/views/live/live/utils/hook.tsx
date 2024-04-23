@@ -81,13 +81,13 @@ export function useLive() {
   }
   async function onSearch() {
     loading.value = true;
-    const { data, count } = await getLiveList({
+    const { data } = await getLiveList({
       ...toRaw(form),
-      limit: pagination.pageSize,
-      page: pagination.currentPage
+      pageSize: pagination.pageSize,
+      pageNum: pagination.currentPage
     });
-    dataList.value = data;
-    pagination.total = count;
+    dataList.value = data.list;
+    pagination.total = data.total;
     // pagination.pageSize = data.pageSize;
     // pagination.currentPage = data.currentPage;
     setTimeout(() => {

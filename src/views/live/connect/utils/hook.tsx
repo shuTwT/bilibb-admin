@@ -78,9 +78,13 @@ export function useConnect() {
 
   async function onSearch() {
     loading.value = true;
-    const { data } = await getConnectList(toRaw(form));
-    dataList.value = data;
-    // pagination.total = data.total;
+    const { data } = await getConnectList({
+      ...toRaw(form),
+      pageSize: pagination.pageSize,
+      pageNum: pagination.currentPage
+    });
+    dataList.value = data.list;
+    pagination.total = data.total;
     // pagination.pageSize = data.pageSize;
     // pagination.currentPage = data.currentPage;
     setTimeout(() => {

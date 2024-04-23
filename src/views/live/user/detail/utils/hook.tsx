@@ -102,7 +102,7 @@ export function useUserDetail() {
     const { data } = await getRoomDanmuList(roomId, {
       uid: uid
     });
-    dataList1.value = data;
+    dataList1.value = data.list;
   }
 
   async function getUserLogList() {

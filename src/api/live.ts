@@ -1,9 +1,9 @@
 import { http } from "@/utils/http";
-import type { Result, ArrayResult, TableResult } from "./types";
+import type { Result, TableResult } from "./types";
 
 /** 连接列表 */
 export const getConnectList = (params?: object) => {
-  return http.request<ArrayResult>("get", "/api/v1/connect/list", { params });
+  return http.request<TableResult>("get", "/api/v1/connect/list", { params });
 };
 
 /** 新增连接 */

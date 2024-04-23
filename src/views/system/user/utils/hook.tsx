@@ -75,7 +75,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     },
     {
       label: "用户编号",
-      prop: "id",
+      prop: "userId",
       width: 90
     },
     {
@@ -94,12 +94,12 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     },
     {
       label: "用户名称",
-      prop: "username",
+      prop: "userName",
       minWidth: 130
     },
     {
       label: "用户昵称",
-      prop: "nickname",
+      prop: "nickName",
       minWidth: 130
     },
     {
@@ -118,14 +118,15 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     },
     {
       label: "部门",
-      prop: "dept.name",
+      prop: "dept.deptName",
       minWidth: 90
     },
     {
       label: "手机号码",
-      prop: "phone",
+      prop: "phonenumber",
       minWidth: 90,
-      formatter: ({ phone }) => hideTextAtIndex(phone, { start: 3, end: 6 })
+      formatter: ({ phonenumber }) =>
+        hideTextAtIndex(phonenumber, { start: 3, end: 6 })
     },
     {
       label: "状态",
@@ -189,7 +190,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       `确认要<strong>${
         row.status === 0 ? "停用" : "启用"
       }</strong><strong style='color:var(--el-color-primary)'>${
-        row.username
+        row.userName
       }</strong>用户吗?`,
       "系统提示",
       {
@@ -231,7 +232,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   }
 
   function handleDelete(row) {
-    message(`您删除了用户编号为${row.id}的这条数据`, { type: "success" });
+    message(`您删除了用户编号为${row.userId}的这条数据`, { type: "success" });
     onSearch();
   }
 
@@ -262,7 +263,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     // 返回当前选中的行
     const curSelected = tableRef.value.getTableRef().getSelectionRows();
     // 接下来根据实际业务，通过选中行的某项数据，比如下面的id，调用接口进行批量删除
-    message(`已删除用户编号为 ${getKeyList(curSelected, "id")} 的数据`, {
+    message(`已删除用户编号为 ${getKeyList(curSelected, "userId")} 的数据`, {
       type: "success"
     });
     tableRef.value.getTableRef().clearSelection();
@@ -314,11 +315,11 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
         formInline: {
           title,
           higherDeptOptions: formatHigherDeptOptions(higherDeptOptions.value),
-          parentId: row?.dept.id ?? 0,
-          nickname: row?.nickname ?? "",
-          username: row?.username ?? "",
+          parentId: row?.dept.deptId ?? 0,
+          nickName: row?.nickName ?? "",
+          userName: row?.userName ?? "",
           password: row?.password ?? "",
-          phone: row?.phone ?? "",
+          phonenumber: row?.phonenumber ?? "",
           email: row?.email ?? "",
           sex: row?.sex ?? "",
           status: row?.status ?? 1,
@@ -335,7 +336,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
         function chores() {
-          message(`您${title}了用户名称为${curData.username}的这条数据`, {
+          message(`您${title}了用户名称为${curData.userName}的这条数据`, {
             type: "success"
           });
           done(); // 关闭弹框
@@ -466,13 +467,13 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   /** 分配角色 */
   async function handleRole(row) {
     // 选中的角色列表
-    const ids = (await getRoleIds({ userId: row.id })).data ?? [];
+    const ids = (await getRoleIds({ userId: row.userId })).data ?? [];
     addDialog({
-      title: `分配 ${row.username} 用户的角色`,
+      title: `分配 ${row.userName} 用户的角色`,
       props: {
         formInline: {
-          username: row?.username ?? "",
-          nickname: row?.nickname ?? "",
+          username: row?.userName ?? "",
+          nickname: row?.nickName ?? "",
           roleOptions: roleOptions.value ?? [],
           ids
         }

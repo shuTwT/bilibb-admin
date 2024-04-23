@@ -78,13 +78,13 @@ export function useRoom() {
   }
   async function onSearch() {
     loading.value = true;
-    const { data, count } = await getRoomList({
+    const { data } = await getRoomList({
       ...toRaw(form),
-      limit: pagination.pageSize,
-      page: pagination.currentPage
+      pageSize: pagination.pageSize,
+      pageNum: pagination.currentPage
     });
-    dataList.value = data;
-    pagination.total = count;
+    dataList.value = data.list;
+    pagination.total = data.total;
     setTimeout(() => {
       loading.value = false;
     }, 500);
