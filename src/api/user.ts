@@ -2,8 +2,12 @@ import { http } from "@/utils/http";
 import type { Result, TableResult } from "./types";
 
 type UserResult = Result<{
+  /** 头像 */
+  avatar: string;
   /** 用户名 */
   username: string;
+  /** 昵称  */
+  nickname: string;
   /** 当前登陆用户的角色 */
   roles: Array<string>;
   /** `token` */
@@ -43,7 +47,7 @@ export const getLogin = (data?: object) => {
   return http.request<UserResult>("post", "/api/login", { data });
 };
 
-/** 刷新token */
+/** 刷新`token` */
 export const refreshTokenApi = (data?: object) => {
   return http.request<RefreshTokenResult>("post", "/api/refresh-token", {
     data
