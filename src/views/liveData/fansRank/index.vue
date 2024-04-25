@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useFansRank } from "./utils/hook";
 
 type DataType = "income" | "watchTime" | "barrage";
 
 const loading = ref(true);
 const dataType = ref<DataType>("income");
+const { selectOpen, selectChange, selectValue } = useFansRank();
 
 const changeDataType = (type: DataType) => {
   loading.value = true;
@@ -57,12 +59,42 @@ setTimeout(() => {
                 <span>时间选择</span>
                 <div class="seperator" />
                 <div class="selector">
-                  <span>七日排行</span
-                  ><i class="select-icon icon-font icon-arrow-down" />
-                  <ul class="options-box" style="display: none">
-                    <li class="option">日排行</li>
-                    <li class="option active">七日排行</li>
-                    <li class="option">月排行</li>
+                  <span @click="selectOpen = !selectOpen">{{
+                    selectValue
+                  }}</span
+                  ><i
+                    class="select-icon icon-font"
+                    :class="{
+                      'icon-arrow-up': selectOpen,
+                      'icon-arrow-down': !selectOpen
+                    }"
+                    @click="selectOpen = !selectOpen"
+                  />
+                  <ul
+                    class="options-box"
+                    :style="selectOpen ? '' : `display:none;`"
+                  >
+                    <li
+                      class="option"
+                      :class="{ active: selectValue == '日排行' }"
+                      @click="selectChange('日排行')"
+                    >
+                      日排行
+                    </li>
+                    <li
+                      class="option"
+                      :class="{ active: selectValue == '七日排行' }"
+                      @click="selectChange('七日排行')"
+                    >
+                      七日排行
+                    </li>
+                    <li
+                      class="option"
+                      :class="{ active: selectValue == '月排行' }"
+                      @click="selectChange('月排行')"
+                    >
+                      月排行
+                    </li>
                   </ul>
                 </div>
                 <div

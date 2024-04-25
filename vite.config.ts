@@ -15,7 +15,8 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     VITE_PORT,
     VITE_COMPRESSION,
     VITE_PROXY_URL,
-    VITE_PUBLIC_PATH
+    VITE_PUBLIC_PATH,
+    VITE_SOURCEMAP
   } = warpperEnv(loadEnv(mode, root));
   return {
     base: VITE_PUBLIC_PATH,
@@ -50,7 +51,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     build: {
       // https://cn.vitejs.dev/guide/build.html#browser-compatibility
       target: "es2015",
-      sourcemap: false,
+      sourcemap: VITE_SOURCEMAP,
       // 消除打包大小超过500kb警告
       chunkSizeWarningLimit: 4000,
       rollupOptions: {

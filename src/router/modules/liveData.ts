@@ -29,7 +29,7 @@ export default {
     },
     {
       path: "/live-data/session-data",
-      name: "sessionData",
+      name: "liveDataSessionData",
       component: () => import("@/views/liveData/sessionData/index.vue"),
       meta: {
         icon: "ri:bank-card-line",
@@ -39,7 +39,7 @@ export default {
     },
     {
       path: "/live-data/gift-list",
-      name: "fansAnalsis",
+      name: "liveDataGiftList",
       component: () => import("@/views/liveData/giftList/index.vue"),
       meta: {
         icon: "ri:bank-card-line",
