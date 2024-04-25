@@ -1,15 +1,35 @@
 <script setup lang="ts">
 import { useMine } from "./utils/hook";
-const { chart1Ref, chart2Ref } = useMine();
+const { chart1Ref, chart2Ref, filterType, changeFilter } = useMine();
 </script>
 <template>
   <div class="main">
     <el-row style="margin-bottom: 5px">
-      <el-button>近7天</el-button>
-      <el-button>近3周</el-button>
-      <el-button>近3月</el-button>
-      <el-button>近6月</el-button>
-      <el-button>近12月</el-button>
+      <el-button
+        :type="filterType == '近7天' ? 'primary' : 'default'"
+        @click="changeFilter('近7天')"
+        >近7天</el-button
+      >
+      <el-button
+        :type="filterType == '近3周' ? 'primary' : 'default'"
+        @click="changeFilter('近3周')"
+        >近3周</el-button
+      >
+      <el-button
+        :type="filterType == '近3月' ? 'primary' : 'default'"
+        @click="changeFilter('近3月')"
+        >近3月</el-button
+      >
+      <el-button
+        :type="filterType == '近6月' ? 'primary' : 'default'"
+        @click="changeFilter('近6月')"
+        >近6月</el-button
+      >
+      <el-button
+        :type="filterType == '近12月' ? 'primary' : 'default'"
+        @click="changeFilter('近12月')"
+        >近12月</el-button
+      >
     </el-row>
     <el-row>
       <el-col :md="8">

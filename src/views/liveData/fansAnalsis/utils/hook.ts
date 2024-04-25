@@ -2,6 +2,10 @@ import { ref, reactive } from "vue";
 import { useECharts } from "@pureadmin/utils";
 import { computed } from "vue";
 export function useFansAnalsis() {
+  const selectOpen1 = ref(false);
+  const selectOpen2 = ref(false);
+  const selectValue1 = ref("近7日");
+  const selectValue2 = ref("近7日");
   const fansTypeFilter = reactive({
     watch_num: false,
     big_r_num: false,
@@ -247,11 +251,11 @@ export function useFansAnalsis() {
       legend: {
         show: false,
         selected: {
-          watchNum: fansTypeFilter.watch_num,
-          bigRNum: fansTypeFilter.big_r_num,
-          liveFans: fansTypeFilter.live_fans,
-          anchorGuardNum: fansTypeFilter.anchor_guard_num,
-          payUser: fansTypeFilter.pay_user
+          看过直播的用户: fansTypeFilter.watch_num,
+          大R粉丝: fansTypeFilter.big_r_num,
+          关注粉丝: fansTypeFilter.live_fans,
+          大航海粉丝: fansTypeFilter.anchor_guard_num,
+          付费粉丝: fansTypeFilter.pay_user
         }
       },
       tooltip: {
@@ -295,7 +299,7 @@ export function useFansAnalsis() {
       },
       series: [
         {
-          name: "watchNum",
+          name: "看过直播的用户",
           data: watchNumYData,
           type: "line",
           smooth: false,
@@ -310,7 +314,7 @@ export function useFansAnalsis() {
           }
         },
         {
-          name: "bigRNum",
+          name: "大R粉丝",
           data: bigRNumYData,
           type: "line",
           smooth: false,
@@ -325,7 +329,7 @@ export function useFansAnalsis() {
           }
         },
         {
-          name: "liveFans",
+          name: "关注粉丝",
           data: liveFansYData,
           type: "line",
           smooth: false,
@@ -340,7 +344,7 @@ export function useFansAnalsis() {
           }
         },
         {
-          name: "anchorGuardNum",
+          name: "大航海粉丝",
           data: anchorGuardNumYData,
           type: "line",
           smooth: false,
@@ -355,7 +359,7 @@ export function useFansAnalsis() {
           }
         },
         {
-          name: "payUser",
+          name: "付费粉丝",
           data: payUserYData,
           type: "line",
           smooth: false,
@@ -389,9 +393,25 @@ export function useFansAnalsis() {
       payUser.value
     );
   };
+
+  function selectChange1(value: string) {
+    selectValue1.value = value;
+    selectOpen1.value = false;
+  }
+  function selectChange2(value: string) {
+    selectValue2.value = value;
+    selectOpen2.value = false;
+  }
+
   return {
     fansTypeFilter,
     onClickFansType,
-    chartRef
+    chartRef,
+    selectOpen1,
+    selectChange1,
+    selectValue1,
+    selectOpen2,
+    selectChange2,
+    selectValue2
   };
 }

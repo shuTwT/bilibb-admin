@@ -1,16 +1,11 @@
-import { onMounted, ref } from "vue";
-import { getConnectList } from "@/api/live";
+import { ref } from "vue";
 import { useECharts } from "@pureadmin/utils";
+type FilterType = "近7天" | "近3周" | "近3月" | "近6月" | "近12月";
 export function useMine() {
   const chart1Ref = ref();
   const chart2Ref = ref();
-  const tableData = ref([]);
-  onMounted(() => {
-    getConnectList().then(res => {
-      console.log(res);
-      tableData.value = res.data;
-    });
-  });
+  const filterType = ref<FilterType>("近7天");
+
   const { setOptions: setOptions1 } = useECharts(chart1Ref);
   const { setOptions: setOptions2 } = useECharts(chart2Ref);
   function renderEcharts(
@@ -106,8 +101,35 @@ export function useMine() {
     ],
     [0, 0, 0, 0, 0, 0, 0]
   );
+  function changeFilter(type: FilterType) {
+    filterType.value = type;
+    renderEcharts(
+      [
+        "2024-04-10",
+        "2024-04-11",
+        "2024-04-12",
+        "2024-04-13",
+        "2024-04-14",
+        "2024-04-15",
+        "2024-04-16"
+      ],
+      [0, 0, 0, 0, 0, 0, 0],
+      [
+        "2024-04-10",
+        "2024-04-11",
+        "2024-04-12",
+        "2024-04-13",
+        "2024-04-14",
+        "2024-04-15",
+        "2024-04-16"
+      ],
+      [0, 0, 0, 0, 0, 0, 0]
+    );
+  }
   return {
     chart1Ref,
-    chart2Ref
+    chart2Ref,
+    filterType,
+    changeFilter
   };
 }

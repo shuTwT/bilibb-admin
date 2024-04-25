@@ -31,7 +31,13 @@ export function useLive() {
     },
     {
       label: "封面",
-      cellRenderer: scope => <el-image src={scope.row.Room.userCover} />
+      cellRenderer: scope => (
+        <el-image
+          preview-teleported={true}
+          preview-src-list={Array.of(scope.row.Room.userCover)}
+          src={scope.row.Room.userCover}
+        />
+      )
     },
     {
       label: "进房",

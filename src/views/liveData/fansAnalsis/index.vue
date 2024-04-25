@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import { useFansAnalsis } from "./utils/hook";
-const { fansTypeFilter, onClickFansType, chartRef } = useFansAnalsis();
+const {
+  fansTypeFilter,
+  onClickFansType,
+  chartRef,
+  selectOpen1,
+  selectValue1,
+  selectChange1,
+  selectOpen2,
+  selectValue2,
+  selectChange2
+} = useFansAnalsis();
 </script>
 
 <template>
@@ -21,11 +31,35 @@ const { fansTypeFilter, onClickFansType, chartRef } = useFansAnalsis();
               <span>时间选择</span>
               <div class="seperator" />
               <div class="selector">
-                <span>近7日</span
-                ><i class="select-icon icon-font icon-arrow-down" />
-                <ul class="options-box" style="display: none">
-                  <li class="option active">近7日</li>
-                  <li class="option">近30日</li>
+                <span @click="selectOpen1 = !selectOpen1">{{
+                  selectValue1
+                }}</span
+                ><i
+                  class="select-icon icon-font"
+                  :class="{
+                    'icon-arrow-up': selectOpen1,
+                    'icon-arrow-down': !selectOpen1
+                  }"
+                  @click="selectOpen1 = !selectOpen1"
+                />
+                <ul
+                  class="options-box"
+                  :style="selectOpen1 ? '' : `display:none;`"
+                >
+                  <li
+                    class="option"
+                    :class="{ active: selectValue1 == '近7日' }"
+                    @click="selectChange1('近7日')"
+                  >
+                    近7日
+                  </li>
+                  <li
+                    class="option"
+                    :class="{ active: selectValue1 == '近30日' }"
+                    @click="selectChange1('近30日')"
+                  >
+                    近30日
+                  </li>
                 </ul>
               </div>
             </div>
@@ -101,6 +135,52 @@ const { fansTypeFilter, onClickFansType, chartRef } = useFansAnalsis();
           </div>
         </div>
       </div>
+      <div class="fans-source-anlysis-content">
+        <header class="fans-header">
+          <div class="title-info">
+            <div class="title">粉丝来源</div>
+          </div>
+          <div class="select-bar">
+            <div class="item">
+              <span>时间选择</span>
+              <div class="seperator" />
+              <div class="selector">
+                <span @click="selectOpen2 = !selectOpen2">{{
+                  selectValue2
+                }}</span
+                ><i
+                  class="select-icon icon-font"
+                  :class="{
+                    'icon-arrow-up': selectOpen2,
+                    'icon-arrow-down': !selectOpen2
+                  }"
+                  @click="selectOpen2 = !selectOpen2"
+                />
+                <ul
+                  class="options-box"
+                  :style="selectOpen2 ? '' : `display:none;`"
+                >
+                  <li
+                    class="option"
+                    :class="{ active: selectValue2 == '近7日' }"
+                    @click="selectChange2('近7日')"
+                  >
+                    近7日
+                  </li>
+                  <li
+                    class="option"
+                    :class="{ active: selectValue2 == '近30日' }"
+                    @click="selectChange2('近30日')"
+                  >
+                    近30日
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </header>
+        <div class="empty-info">暂无数据</div>
+      </div>
     </div>
   </div>
 </template>
@@ -116,7 +196,8 @@ const { fansTypeFilter, onClickFansType, chartRef } = useFansAnalsis();
   vertical-align: middle;
 }
 
-.fans-analysis-content {
+.fans-analysis-content,
+.fans-source-anlysis-content {
   padding-bottom: 20px;
   background: #fff;
   border: 1px solid #e9eaec;
@@ -256,6 +337,24 @@ const { fansTypeFilter, onClickFansType, chartRef } = useFansAnalsis();
   }
 }
 
+.fans-source-anlysis-content {
+  padding: 29px 22px 75px 31px;
+  margin-top: 18px;
+  background: #fff;
+  border-radius: 12px;
+
+  .empty-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 266px;
+    font-size: 16px;
+    color: #9499a0;
+    border: 1px solid #e9eaec;
+    border-radius: 12px;
+  }
+}
+
 .selector {
   position: relative;
   display: flexbox;
@@ -283,6 +382,10 @@ const { fansTypeFilter, onClickFansType, chartRef } = useFansAnalsis();
 
     .option.active {
       color: #00aeec;
+    }
+
+    .option:hover {
+      background-color: #f5f5f5;
     }
   }
 }

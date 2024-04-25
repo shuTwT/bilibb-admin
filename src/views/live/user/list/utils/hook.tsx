@@ -104,6 +104,10 @@ export function useUser() {
   onMounted(async () => {
     onSearch();
   });
+
+  function refreshUserData(uid: string) {
+    console.log(uid);
+  }
   return {
     form,
     formRef,
@@ -115,6 +119,7 @@ export function useUser() {
     onSearch,
     rowStyle,
     resetForm,
+    refreshUserData,
     handleSizeChange,
     handleCurrentChange,
     handleSelectionChange

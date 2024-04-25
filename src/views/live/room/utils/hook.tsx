@@ -35,11 +35,25 @@ export function useRoom() {
     },
     {
       label: "关键帧",
-      cellRenderer: scope => <el-image src={scope.row.keyframe} />
+      cellRenderer: scope => (
+        <el-image
+          class="h-[100px]"
+          preview-teleported={true}
+          preview-src-list={Array.of(scope.row.keyframe)}
+          src={scope.row.keyframe}
+        />
+      )
     },
     {
       label: "封面",
-      cellRenderer: scope => <el-image src={scope.row.userCover} />
+      cellRenderer: scope => (
+        <el-image
+          class="h-[100px]"
+          preview-teleported={true}
+          preview-src-list={Array.of(scope.row.userCover)}
+          src={scope.row.userCover}
+        />
+      )
     },
     {
       label: "操作",

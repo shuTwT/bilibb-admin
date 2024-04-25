@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { onMounted, ref, reactive } from "vue";
-import { getRoomList } from "@/api/live";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import {

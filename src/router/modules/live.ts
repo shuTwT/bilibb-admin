@@ -43,7 +43,7 @@ export default {
       component: () => import("@/views/live/user/list/index.vue"),
       meta: {
         icon: "ri:bank-card-line",
-        title: "用户管理",
+        title: "观众管理",
         showParent: true
       }
     },

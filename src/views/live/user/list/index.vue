@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { getUserList } from "@/api/live";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import {
@@ -22,6 +20,7 @@ const {
   onSearch,
   rowStyle,
   resetForm,
+  refreshUserData,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange
@@ -98,7 +97,19 @@ const {
             @selection-change="handleSelectionChange"
             @page-size-change="handleSizeChange"
             @page-current-change="handleCurrentChange"
-          />
+          >
+            <template #operation="{ row }">
+              <el-button
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(Refresh)"
+                @click="refreshUserData(row.uid)"
+              >
+                刷新数据
+              </el-button>
+            </template>
+          </pure-table>
         </template>
       </PureTableBar>
     </div>
