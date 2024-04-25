@@ -1,7 +1,7 @@
 import { http } from "@/utils/http";
 import type { Result, TableResult } from "./types";
 
-type UserResult = Result<{
+export type UserResult = Result<{
   /** 头像 */
   avatar: string;
   /** 用户名 */
@@ -56,10 +56,14 @@ export const refreshTokenApi = (data?: object) => {
 
 /** 账户设置-个人信息 */
 export const getMine = (params?: object) => {
-  return http.request<Result<UserInfo>>("get", "/api/mine", { params });
+  return http.request<Result<UserInfo>>("get", "/api/system/user/profile", {
+    params
+  });
 };
 
 /** 账户设置-个人安全日志 */
 export const getMineLogs = (params?: object) => {
-  return http.request<TableResult>("get", "/api/mine-logs", { params });
+  return http.request<TableResult>("get", "/api/system/user/profile/logs", {
+    params
+  });
 };
