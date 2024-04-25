@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { useOverview } from "./utils/hook";
-const { option, changeType, dataType, dataTypeName, chartRef2 } = useOverview();
+const {
+  option,
+  changeType,
+  dataType,
+  dataTypeName,
+  chartRef2,
+  selectOpen,
+  selectValue,
+  selectChange
+} = useOverview();
 </script>
 
 <template>
@@ -50,12 +59,40 @@ const { option, changeType, dataType, dataTypeName, chartRef2 } = useOverview();
               <span>时间选择</span>
               <div class="seperator" />
               <div class="selector">
-                <span>近七日</span
-                ><i class="select-icon icon-font icon-arrow-down" />
-                <ul class="options-box" style="display: none">
-                  <li class="option">今日</li>
-                  <li class="option active">近七日</li>
-                  <li class="option">近30日</li>
+                <span @click="selectOpen = !selectOpen">{{ selectValue }}</span
+                ><i
+                  class="select-icon icon-font"
+                  :class="{
+                    'icon-arrow-up': selectOpen,
+                    'icon-arrow-down': !selectOpen
+                  }"
+                  @click="selectOpen = !selectOpen"
+                />
+                <ul
+                  class="options-box"
+                  :style="selectOpen ? '' : `display:none;`"
+                >
+                  <li
+                    class="option"
+                    :class="{ active: selectValue == '今日' }"
+                    @click="selectChange('今日')"
+                  >
+                    今日
+                  </li>
+                  <li
+                    class="option"
+                    :class="{ active: selectValue == '近七日' }"
+                    @click="selectChange('近七日')"
+                  >
+                    近七日
+                  </li>
+                  <li
+                    class="option"
+                    :class="{ active: selectValue == '近30日' }"
+                    @click="selectChange('近30日')"
+                  >
+                    近30日
+                  </li>
                 </ul>
               </div>
             </div>
@@ -377,6 +414,14 @@ const { option, changeType, dataType, dataTypeName, chartRef2 } = useOverview();
       padding: 10px 20px;
       text-align: right;
       white-space: nowrap;
+    }
+
+    .option.active {
+      color: #00aeec;
+    }
+
+    .option:hover {
+      background-color: #f5f5f5;
     }
   }
 }

@@ -75,7 +75,7 @@ const {
       <PureTableBar
         :class="[isShow && !deviceDetection() ? '!w-[60vw]' : 'w-full']"
         style="transition: width 220ms cubic-bezier(0.4, 0, 0.2, 1)"
-        title="直播间管理"
+        title="房间管理"
         :columns="columns"
         @refresh="onSearch"
       >

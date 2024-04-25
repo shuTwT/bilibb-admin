@@ -53,6 +53,8 @@ const indicator = [
   }
 ];
 export function useOverview() {
+  const selectOpen = ref(false);
+  const selectValue = ref("今日");
   const chartRef2 = ref();
   const dataType = ref<DataType>("income");
   const dataTypeName = computed(() => dataTypeNames[dataType.value]);
@@ -147,11 +149,20 @@ export function useOverview() {
       coreDataList[dataType.value]
     );
   };
+
+  function selectChange(value: string) {
+    selectValue.value = value;
+    selectOpen.value = false;
+  }
+
   return {
     option,
     changeType,
     dataType,
     dataTypeName,
-    chartRef2
+    chartRef2,
+    selectOpen,
+    selectChange,
+    selectValue
   };
 }
