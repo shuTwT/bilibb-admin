@@ -18,31 +18,31 @@ const { isDark, toggleDark } = useDark();
 const rankingBoardConfig = reactive({
   data: [
     {
-      name: "周口",
+      name: "用户1",
       value: 55
     },
     {
-      name: "南阳",
+      name: "用户2",
       value: 120
     },
     {
-      name: "西峡",
+      name: "用户3",
       value: 78
     },
     {
-      name: "驻马店",
+      name: "用户4",
       value: 66
     },
     {
-      name: "新乡",
+      name: "用户5",
       value: 80
     },
     {
-      name: "信阳",
+      name: "用户6",
       value: 45
     },
     {
-      name: "漯河",
+      name: "用户7",
       value: 29
     }
   ],
