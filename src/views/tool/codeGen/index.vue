@@ -3,7 +3,10 @@ import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import { deviceDetection } from "@pureadmin/utils";
 import Refresh from "@iconify-icons/ep/refresh";
-import Menu from "@iconify-icons/ep/menu";
+import View from "@iconify-icons/ep/view";
+import Edit from "@iconify-icons/ep/edit";
+import Delete from "@iconify-icons/ep/delete";
+import DownLoad from "@iconify-icons/ep/download";
 import { useCodeGen } from "./utils/hook";
 
 const {
@@ -18,7 +21,11 @@ const {
   openDialog,
   rowStyle,
   resetForm,
-  handleDetail,
+  handlePreview,
+  handleEdit,
+  handleSyncDb,
+  handleDelete,
+  handleGenTable,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange
@@ -105,10 +112,50 @@ const {
                 link
                 type="primary"
                 :size="size"
-                :icon="useRenderIcon(Menu)"
-                @click="handleDetail(row)"
+                :icon="useRenderIcon(View)"
+                @click="handlePreview(row)"
               >
-                详细
+                预览
+              </el-button>
+              <el-button
+                class="reset-margin"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(Edit)"
+                @click="handleEdit(row)"
+              >
+                编辑
+              </el-button>
+              <el-button
+                class="reset-margin"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(Delete)"
+                @click="handleDelete(row)"
+              >
+                删除
+              </el-button>
+              <el-button
+                class="reset-margin"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(Refresh)"
+                @click="handleSyncDb(row)"
+              >
+                同步
+              </el-button>
+              <el-button
+                class="reset-margin"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(DownLoad)"
+                @click="handleGenTable(row)"
+              >
+                生成代码
               </el-button>
             </template>
           </pure-table>

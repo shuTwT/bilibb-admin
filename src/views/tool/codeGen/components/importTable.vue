@@ -3,7 +3,7 @@ import { getDbList } from "@/api/tool";
 import type { PaginationProps } from "@pureadmin/table";
 import { ref, reactive } from "vue";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import { FormProps } from "./utils/types";
+import { FormProps } from "../utils/types";
 import Refresh from "@iconify-icons/ep/refresh";
 import { onMounted } from "vue";
 import { toRaw } from "vue";

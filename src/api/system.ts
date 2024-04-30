@@ -26,6 +26,10 @@ export const getMenuList = (params?: object) => {
   return http.request<Result>("get", "/api/system/menu", { params });
 };
 
+export const getMenuTreeSelect = () => {
+  return http.request<Result>("get", "/api/system/menu/tree-select");
+};
+
 /** 新增系统管理-菜单 */
 export const addMenu = (data?: object) => {
   return http.request<Result>("post", "/api/system/menu", { data });
@@ -151,6 +155,14 @@ export const deleteSystemDictType = (data: number[]) => {
       dictIds: data.toString()
     }
   });
+};
+
+export const refreshSystemDictCache = () => {
+  return http.request<Result>("delete", "/api/system/dict/type/refresh-cache");
+};
+
+export const getDictOptionSelect = () => {
+  return http.request<Result>("get", "/api/system/dict/type/optionselect");
 };
 
 export const getSystemDictDataList = (params: object) => {

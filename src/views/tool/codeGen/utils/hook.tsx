@@ -1,12 +1,15 @@
 import { getGenList, importTable } from "@/api/tool";
 import type { PaginationProps } from "@pureadmin/table";
-import editForm from "../form.vue";
+import importTableForm from "../components/importTable.vue";
 import { onMounted, reactive, h, ref, toRaw } from "vue";
 import { addDialog } from "@/components/ReDialog";
 import { deviceDetection } from "@pureadmin/utils";
 import { message } from "@/utils/message";
+import dayjs from "dayjs";
+import { useRouter } from "vue-router";
 
 export function useCodeGen() {
+  const router = useRouter();
   const formRef = ref();
   const isShow = ref(false);
   const dataList = ref([]);
@@ -25,32 +28,41 @@ export function useCodeGen() {
   const columns: TableColumnList = [
     {
       label: "序号",
+      width: 80,
       prop: "tableId"
     },
     {
       label: "表名称",
+      width: 120,
       prop: "tableName"
     },
     {
       label: "表描述",
+      width: 150,
       prop: "tableComment"
     },
     {
       label: "实体",
+      width: 150,
       prop: "model"
     },
     {
       label: "创建时间",
-      prop: "createTime"
+      width: 180,
+      cellRenderer: ({ row }) => (
+        <time>{dayjs(row.createTime).format("YYYY-MM-DD HH:mm:ss")}</time>
+      )
     },
     {
       label: "更新时间",
-      prop: "updateTime"
+      width: 180,
+      cellRenderer: ({ row }) => (
+        <time>{dayjs(row.updateTime).format("YYYY-MM-DD HH:mm:ss")}</time>
+      )
     },
     {
       label: "操作",
       fixed: "right",
-      width: 210,
       slot: "operation"
     }
   ];
@@ -62,7 +74,20 @@ export function useCodeGen() {
     };
   }
 
-  function handleDetail() {}
+  /** 预览按钮 */
+  function handlePreview() {}
+  /** 编辑按钮 */
+  function handleEdit(row) {
+    router.push({
+      path: "/tool/code-gen-edit/" + row.tableId
+    });
+  }
+  /** 同步按钮 */
+  function handleSyncDb() {}
+  /** 删除按钮 */
+  function handleDelete() {}
+  /** 生成按钮 */
+  function handleGenTable() {}
 
   function handleSizeChange(val: number) {
     onSearch();
@@ -105,7 +130,7 @@ export function useCodeGen() {
       fullscreenIcon: true,
       closeOnClickModal: false,
       fullscreen: deviceDetection(),
-      contentRenderer: () => h(editForm, { ref: formRef }),
+      contentRenderer: () => h(importTableForm, { ref: formRef }),
       beforeSure: done => {
         const selections: any[] = formRef.value.getSelections();
         function chores() {
@@ -148,7 +173,11 @@ export function useCodeGen() {
     openDialog,
     resetForm,
     rowStyle,
-    handleDetail,
+    handlePreview,
+    handleEdit,
+    handleSyncDb,
+    handleDelete,
+    handleGenTable,
     handleSizeChange,
     handleCurrentChange,
     handleSelectionChange

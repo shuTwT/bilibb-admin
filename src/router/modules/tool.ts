@@ -28,6 +28,15 @@ export default {
       }
     },
     {
+      path: "/tool/code-gen-edit/:tableId",
+      name: "codeGenEdit",
+      component: () => import("@/views/tool/codeGen/editTable.vue"),
+      meta: {
+        title: "修改生成配置",
+        showLink: false
+      }
+    },
+    {
       path: "/tool/swagger",
       name: "swagger",
       component: () => import("@/views/tool/swagger/index.vue"),

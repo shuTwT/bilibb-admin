@@ -4,4 +4,8 @@ interface FormProps {
   formInline: FormItemProps;
 }
 
-export type { FormItemProps, FormProps };
+interface PreviewTableProps {
+  tableId: number;
+}
+
+export type { FormItemProps, FormProps, PreviewTableProps };
