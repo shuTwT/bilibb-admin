@@ -100,15 +100,22 @@ export function useUserDetail() {
     const uid = route.params.uid as string;
     const roomId = route.params.roomId as string;
     const { data } = await getRoomDanmuList(roomId, {
-      uid: uid
+      uid: uid,
+      pageSize: pagination1.pageSize,
+      pageNum: pagination1.currentPage
     });
     dataList1.value = data.list;
+    pagination1.total = data.total;
   }
 
   async function getUserLogList() {
     const uid = route.params.uid as string;
-    const { data } = await getUserLogs(uid);
-    dataList2.value = data;
+    const { data } = await getUserLogs(uid, {
+      pageSize: pagination2.pageSize,
+      pageNum: pagination2.currentPage
+    });
+    dataList2.value = data.list;
+    pagination2.total = data.total;
   }
 
   async function refreshData() {
